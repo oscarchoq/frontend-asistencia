@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
           duration: 2000,
         });
       } else {
-        toast.error("Problemas con el servidor", {
+        toast.warning("Problemas con el servidor", {
           position: "top-right",
           duration: 2000,
         });
