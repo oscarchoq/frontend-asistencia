@@ -8,6 +8,7 @@ import Home from "./app/pages/Home";
 import LayoutAdmin from "./app/layouts/LayoutAdmin";
 import EstudiantePage from "./app/pages/estudiante/EstudiantePage";
 import FormPersona from "./app/pages/persona/FormPersona";
+import UpdatePersona from "./app/pages/persona/UpdatePersona";
 
 function App() {
   return (
@@ -20,6 +21,10 @@ function App() {
               <Route index element={<Home />} />
               <Route path="/estudiante" element={<EstudiantePage />} />
               <Route path="/estudiante/registrar" element={<FormPersona />} />
+              <Route
+                path="/estudiante/editar/:id"
+                element={<UpdatePersona />}
+              />
             </Route>
           </Routes>
         </Router>

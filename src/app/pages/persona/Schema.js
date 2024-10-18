@@ -40,9 +40,33 @@ export const formSchema = z
     sexo: z.enum(["M", "F"], {
       message: "Campo obligatorio",
     }),
-    nro_celular: z.string().min(9).max(12).optional(""),
-    correo_institucional: z.string().email().optional(""),
-    correo_personal: z.string().email().optional(""),
+    nro_celular: z
+      .string()
+      .min(9, {
+        message: "El celular tiene minimo 9 caracteres",
+      })
+      .max(12, {
+        message: "El celular tiene máximo 12 caracteres",
+      })
+      .refine((value) => /^[0-9]*$/.test(value), {
+        message: "El número debe ser numerico.",
+      })
+      .optional()
+      .or(z.literal("")),
+    correo_institucional: z
+      .string()
+      .email({
+        message: "El correo institucional debe ser un email",
+      })
+      .optional()
+      .or(z.literal("")),
+    correo_personal: z
+      .string()
+      .email({
+        message: "El correo personal debe ser un email",
+      })
+      .optional()
+      .or(z.literal("")),
     fecha_nacimiento: z.string(),
     estado_civil: z.string({
       message: "Campo obligatorio",
