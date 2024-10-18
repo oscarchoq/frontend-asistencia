@@ -180,21 +180,17 @@ const EstudiantePage = () => {
         return (
           <div className="flex justify-center items-center gap-x-2">
             <Link
-              to={`editar/${row.original.id}`}
+              to={`ver/${row.original.id}`}
               className="bg-green-700 p-1 rounded text-white"
             >
               <IoEyeSharp size={15} />
             </Link>
-            <button
-              onClick={() => {
-                setSelected(row.row.original);
-                setShowModal1(true);
-                setType(1);
-              }}
+            <Link
+              to={`editar/${row.original.id}`}
               className="bg-blue-700 p-1 rounded text-white"
             >
               <FaPencilAlt size={15} />
-            </button>
+            </Link>
           </div>
         );
       },
@@ -209,7 +205,7 @@ const EstudiantePage = () => {
         </span>
       </div>
 
-      <div className="pb-8">
+      <div className="pb-8 space-y-6">
         <Button>
           <Link to={"registrar"}>Nuevo</Link>
         </Button>

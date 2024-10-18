@@ -22,8 +22,12 @@ function App() {
               <Route path="/estudiante" element={<EstudiantePage />} />
               <Route path="/estudiante/registrar" element={<FormPersona />} />
               <Route
+                path="/estudiante/ver/:id"
+                element={<UpdatePersona action={1} />}
+              />
+              <Route
                 path="/estudiante/editar/:id"
-                element={<UpdatePersona />}
+                element={<UpdatePersona action={2} />}
               />
             </Route>
           </Routes>

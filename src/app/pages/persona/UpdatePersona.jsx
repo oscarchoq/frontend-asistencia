@@ -26,7 +26,7 @@ import { useEffect, useState } from "react";
 
 import { formSchema } from "./Schema";
 
-const UpdatePersona = ({ type = 2 }) => {
+const UpdatePersona = ({ type = 2, action = 1 }) => {
   // Combos
   const { fetchGradoInstruccion, fetchTipoDocumento, fetchEstadoCivil } =
     useFetchCombos();
@@ -125,9 +125,13 @@ const UpdatePersona = ({ type = 2 }) => {
   return (
     <div>
       <div className="flex flex-col pb-8">
-        <h1 className="font-bold text-xl">Editar estudiante</h1>
+        <h1 className="font-bold text-xl">
+          {action === 1 ? "Visualizar" : "Editar"} estudiante
+        </h1>
         <span className="text-gray-500 font-semibold -mt-1">
-          Modifica todos los campos para quieras actualizar
+          {action === 1
+            ? "Visualiza los detalles del estudiante"
+            : "Modifica todos los campos para quieras actualizar"}
         </span>
       </div>
 
@@ -141,7 +145,7 @@ const UpdatePersona = ({ type = 2 }) => {
                 <FormItem>
                   <FormLabel>Cod. Matricula</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input disabled {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -153,7 +157,11 @@ const UpdatePersona = ({ type = 2 }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Tipo Documento</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select
+                    disabled
+                    onValueChange={field.onChange}
+                    value={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Selecciona el tipo de documento" />
@@ -192,7 +200,7 @@ const UpdatePersona = ({ type = 2 }) => {
                 <FormItem>
                   <FormLabel>Apellido Paterno</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input disabled={action === 1 ? true : false} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -205,7 +213,7 @@ const UpdatePersona = ({ type = 2 }) => {
                 <FormItem>
                   <FormLabel>Apellido Materno</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input disabled={action === 1 ? true : false} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -218,7 +226,7 @@ const UpdatePersona = ({ type = 2 }) => {
                 <FormItem>
                   <FormLabel>Nombres</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input disabled={action === 1 ? true : false} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -231,7 +239,11 @@ const UpdatePersona = ({ type = 2 }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Sexo</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select
+                    disabled={action === 1 ? true : false}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Selecciona el sexo" />
@@ -253,7 +265,11 @@ const UpdatePersona = ({ type = 2 }) => {
                 <FormItem>
                   <FormLabel>Fecha Nacimiento</FormLabel>
                   <FormControl>
-                    <Input type="date" {...field} />
+                    <Input
+                      disabled={action === 1 ? true : false}
+                      type="date"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -265,7 +281,11 @@ const UpdatePersona = ({ type = 2 }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Estado Civil</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select
+                    disabled={action === 1 ? true : false}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Selecciona el estado civil" />
@@ -290,7 +310,11 @@ const UpdatePersona = ({ type = 2 }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Grado de Instrucción</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select
+                    disabled={action === 1 ? true : false}
+                    onValueChange={field.onChange}
+                    value={field.value}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Selecciona el grado de instrucción" />
@@ -315,7 +339,7 @@ const UpdatePersona = ({ type = 2 }) => {
                 <FormItem>
                   <FormLabel>Celular</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input disabled={action === 1 ? true : false} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -328,7 +352,7 @@ const UpdatePersona = ({ type = 2 }) => {
                 <FormItem>
                   <FormLabel>Email Institucional</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input disabled={action === 1 ? true : false} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -341,7 +365,7 @@ const UpdatePersona = ({ type = 2 }) => {
                 <FormItem>
                   <FormLabel>Email Personal</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input disabled={action === 1 ? true : false} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -349,7 +373,7 @@ const UpdatePersona = ({ type = 2 }) => {
             />
           </div>
           <div className="flex gap-6 justify-center py-6">
-            <Button type="submit">Registrar</Button>
+            {action === 2 && <Button type="submit">Actualizar</Button>}
             <Button variant="outline" onClick={() => navigate(-1)}>
               Cancelar
             </Button>
