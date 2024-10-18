@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 const links = [
   { name: "Home", href: "", icon: HomeIcon },
   { name: "estudiante", href: "estudiante" },
-  { name: "profesor", href: "profesor" },
+  // { name: "profesor", href: "profesor" },
 ];
 
 const Sidebar = () => {
