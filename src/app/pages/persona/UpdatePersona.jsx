@@ -186,7 +186,7 @@ const UpdatePersona = ({ type = 2, action = 1 }) => {
                 <FormItem>
                   <FormLabel>N° Documento Registro</FormLabel>
                   <FormControl>
-                    <Input {...field} />
+                    <Input disabled={action === 1 ? true : false} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -374,7 +374,11 @@ const UpdatePersona = ({ type = 2, action = 1 }) => {
           </div>
           <div className="flex gap-6 justify-center py-6">
             {action === 2 && <Button type="submit">Actualizar</Button>}
-            <Button variant="outline" onClick={() => navigate(-1)}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => navigate(-1)}
+            >
               Cancelar
             </Button>
           </div>
