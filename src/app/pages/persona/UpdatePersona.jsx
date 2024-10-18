@@ -186,7 +186,7 @@ const UpdatePersona = ({ type = 2, action = 1 }) => {
                 <FormItem>
                   <FormLabel>N° Documento Registro</FormLabel>
                   <FormControl>
-                    <Input disabled={action === 1 ? true : false} {...field} />
+                    <Input disabled {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

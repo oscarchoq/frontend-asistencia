@@ -16,6 +16,9 @@ export const formSchema = z
       .string({
         message: "Campo obligatorio",
       })
+      .min(8, {
+        message: "Numero de documento debe ser igual o mayor a 8 caracteres",
+      })
       .max(12, {
         message: "Numero de documento no es válido",
       }),
