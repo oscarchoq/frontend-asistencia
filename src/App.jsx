@@ -9,30 +9,35 @@ import LayoutAdmin from "./app/layouts/LayoutAdmin";
 import EstudiantePage from "./app/pages/estudiante/EstudiantePage";
 import FormPersona from "./app/pages/persona/FormPersona";
 import UpdatePersona from "./app/pages/persona/UpdatePersona";
+// import { ThemeProvider } from "./components/theme-provider";
+import { ThemeProvider } from "@/components/theme-provider";
 
 function App() {
   return (
     <>
-      <AuthProvider>
-        <Router>
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/" element={<LayoutAdmin />}>
-              <Route index element={<Home />} />
-              <Route path="/estudiante" element={<EstudiantePage />} />
-              <Route path="/estudiante/registrar" element={<FormPersona />} />
-              <Route
-                path="/estudiante/ver/:id"
-                element={<UpdatePersona action={1} />}
-              />
-              <Route
-                path="/estudiante/editar/:id"
-                element={<UpdatePersona action={2} />}
-              />
-            </Route>
-          </Routes>
-        </Router>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <Router>
+            <Routes>
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/" element={<LayoutAdmin />}>
+                <Route index element={<Home />} />
+                <Route path="/estudiante" element={<EstudiantePage />} />
+                <Route path="/estudiante/registrar" element={<FormPersona />} />
+                <Route
+                  path="/estudiante/ver/:id"
+                  element={<UpdatePersona action={1} />}
+                />
+                <Route
+                  path="/estudiante/editar/:id"
+                  element={<UpdatePersona action={2} />}
+                />
+              </Route>
+            </Routes>
+          </Router>
+        </AuthProvider>
+      </ThemeProvider>
+
       <Toaster />
     </>
   );

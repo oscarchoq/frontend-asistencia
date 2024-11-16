@@ -14,7 +14,7 @@ const Sidebar = () => {
   return (
     <>
       <div
-        className={`text-dashboard_sidebar-100 xl:h-[100vh] overflow-y-scroll fixed xl:static w-[80%] md:w-[40%] lg:w-[30%] xl:w-auto h-full top-0 bg-dashboard_sidebar-500 p-4 flex flex-col justify-between z-50 transition-all ${
+        className={`text-dashboard_sidebar-100 xl:h-[100vh] overflow-y-scroll fixed xl:static w-[80%] md:w-[40%] lg:w-[30%] xl:w-auto h-full top-0 bg-dashboard_sidebar-500 p-4 flex flex-col justify-between z-50 transition-all dark:bg-slate-950 ${
           showMenu ? "left-0" : "-left-full"
         }`}
       >
@@ -86,16 +86,16 @@ const Sidebar = () => {
       <div
         className={`xl:hidden fixed z-49 w-[20%] md:w-[60%] lg:w-[70%] h-full ${
           showMenu ? "right-0" : "-right-full"
-        } transition-all bg-slate-100 opacity-50`}
+        } transition-all bg-slate-100 opacity-50 dark:bg-slate-950`}
       />
       <button
         onClick={() => setShowMenu(!showMenu)}
         className="xl:hidden fixed bottom-4 right-4 bg-primary text-black p-3 rounded-full z-50"
       >
         {showMenu ? (
-          <Cross1Icon className="text-white" />
+          <Cross1Icon className="text-white dark:text-black" />
         ) : (
-          <HamburgerMenuIcon className="text-white" />
+          <HamburgerMenuIcon className="text-white dark:text-black" />
         )}
       </button>
     </>

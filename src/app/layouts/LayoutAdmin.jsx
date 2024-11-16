@@ -17,7 +17,7 @@ const LayoutAdmin = () => {
           {/* Your app content */}
           <main>
             <div className="w-full min-h-[calc(100vh-230px)]">
-              <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8">
+              <div className="bg-white shadow-md rounded-lg p-4 sm:p-6 xl:p-8 dark:bg-slate-950">
                 <Outlet />
               </div>
             </div>

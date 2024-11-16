@@ -1,3 +1,4 @@
+import { Moon, Sun } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,17 +11,38 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/context/AuthContext";
+import { useTheme } from "@/components/theme-provider";
 import { Link, NavLink } from "react-router-dom";
 
 const Header = () => {
   const { userSession, logout } = useAuth();
+  const { setTheme } = useTheme();
+
   return (
     <header>
-      <nav className="border-b border-gray-200 w-full shadow-md bg-dashboard_header-500">
+      <nav className="border-b w-full shadow-md bg-dashboard_header-500 border-gray-200 dark:bg-slate-950 dark:border-slate-700">
         <div className="px-3 py-3 lg:px-5 lg:pl-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center justify-start"></div>
-            <div className="flex items-center">
+            <div className="flex items-center space-x-4">
+              {/* Theme light/dark*/}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                    <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                    <span className="sr-only">Toggle theme</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onClick={() => setTheme("light")}>
+                    Light
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setTheme("dark")}>
+                    Dark
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
               {/* User Avatar */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
