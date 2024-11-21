@@ -11,11 +11,18 @@ import FormPersona from "./app/pages/persona/FormPersona";
 import UpdatePersona from "./app/pages/persona/UpdatePersona";
 // import { ThemeProvider } from "./components/theme-provider";
 import { ThemeProvider } from "@/components/theme-provider";
+import { DataTableDemo } from "./app/pages/DataTableDemo";
+import TableDemo from "./app/pages/TableDemo";
 
 function App() {
   return (
     <>
       <ThemeProvider>
+        <Router>
+          <Routes>
+            <Route path="/table" element={<TableDemo />} />
+          </Routes>
+        </Router>
         <AuthProvider>
           <Router>
             <Routes>
