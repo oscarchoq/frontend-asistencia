@@ -48,33 +48,35 @@ const Header = () => {
                 <DropdownMenuTrigger asChild>
                   <Avatar className="cursor-pointer">
                     <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarFallback>
+                      {userSession?.ApellidoPaterno[0]}
+                      {userSession?.ApellidoMaterno[0]}
+                    </AvatarFallback>
                   </Avatar>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
                   <DropdownMenuLabel>
                     <div className="flex flex-col space-y-1">
                       <p className="text-sm font-medium leading-none">
-                        {userSession?.nombres +
+                        {userSession?.Nombres +
                           " " +
-                          userSession?.apellido_paterno +
+                          userSession?.ApellidoPaterno +
                           " " +
-                          userSession?.apellido_materno}
+                          userSession?.ApellidoMaterno}
                       </p>
                       <p className="text-xs leading-none text-muted-foreground">
-                        {userSession?.correo_institucional}
+                        {userSession?.CorreoInstitucional}
                       </p>
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuGroup>
-                    <DropdownMenuItem>Profile</DropdownMenuItem>
-                    <DropdownMenuItem>Settings</DropdownMenuItem>
+                    <DropdownMenuItem>Perfil</DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem className="w-full">
                     <Link onClick={() => logout()} to={"/login"}>
-                      Log out
+                      Cerrar Sesión
                     </Link>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
