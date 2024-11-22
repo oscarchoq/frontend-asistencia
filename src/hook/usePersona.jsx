@@ -3,28 +3,61 @@ import {
   getStudents,
   registerStudent,
   updateStudent,
+  findReniecURI,
 } from "@/api/persona";
 import { toast } from "sonner";
 
-const registerPerson = async (person, type) => {
+const findReniec = async (dni) => {
   try {
-    if (type === 2) {
-      // Estudiante
-      const response = await registerStudent({ ...person, tipo_pers_id: type });
+    const data = { dni };
+    const response = await findReniecURI(data);
+    return response.data;
+  } catch (error) {
+    console.log("Error al obtener el estudiante por DNI", error);
+  }
+};
+
+const registerPerson = async (typePerson, person) => {
+  try {
+    // TipoPersonaID: 1=ADMINISTRADOR; 2=ESTUDIANTE; 3=DOCENTE
+    // Insert de estudiante
+    if (typePerson === 1) {
+      const response = await registerStudent({ ...person, TipoPersonaID: 2 });
+      console.log(response);
       if (response.status === 200) {
         toast.success(response.data.message, {
           position: "top-right",
           duration: 2000,
         });
-        return True;
+        return true;
       }
     }
 
-    if (type === 3) {
-      // Docente
+    // Insert de docente
+    if (typePerson === 2) {
+      const response = await registerStudent({ ...person, TipoPersonaID: 3 });
+      console.log(response);
+      if (response.status === 200) {
+        toast.success(response.data.message, {
+          position: "top-right",
+          duration: 2000,
+        });
+        return true;
+      }
     }
-  } catch (error) {}
+  } catch (error) {
+    // console.log(error);
+    if (error.status === 409) {
+      console.log("hOLI");
+      toast.error(error.response.data.error, {
+        position: "top-right",
+        duration: 2000,
+      });
+      return false;
+    }
+  }
 };
+
 const getPersona = async (type = 2) => {
   try {
     const response = await getStudents();
@@ -73,6 +106,7 @@ const updatePerson = async (id, person, type = 2) => {
 
 export const usePersona = () => {
   return {
+    findReniec,
     registerPerson,
     getPersona,
     getPersonaById,

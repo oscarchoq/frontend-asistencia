@@ -7,13 +7,14 @@ import LoginPage from "./app/pages/login/LoginPage";
 import Home from "./app/pages/Home";
 import LayoutAdmin from "./app/layouts/LayoutAdmin";
 import EstudiantePage from "./app/pages/estudiante/EstudiantePage";
-import FormPersona from "./app/pages/persona/FormPersona";
-import UpdatePersona from "./app/pages/persona/UpdatePersona";
+// import FormPersona from "./app/pages/persona1/FormPersona";
+import UpdatePersona from "./app/pages/persona1/UpdatePersona";
 // import { ThemeProvider } from "./components/theme-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { DataTableDemo } from "./app/pages/DataTableDemo";
 import TableDemo from "./app/pages/TableDemo";
 
+import FormPersona from "./app/pages/persona/FormPersona";
 function App() {
   return (
     <>
@@ -30,15 +31,16 @@ function App() {
               <Route path="/" element={<LayoutAdmin />}>
                 <Route index element={<Home />} />
                 <Route path="/estudiante" element={<EstudiantePage />} />
+                {/* <Route path="/estudiante" element={<EstudiantePage />} /> */}
                 <Route path="/estudiante/registrar" element={<FormPersona />} />
-                <Route
+                {/* <Route
                   path="/estudiante/ver/:id"
                   element={<UpdatePersona action={1} />}
                 />
                 <Route
                   path="/estudiante/editar/:id"
                   element={<UpdatePersona action={2} />}
-                />
+                /> */}
               </Route>
             </Routes>
           </Router>
