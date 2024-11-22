@@ -18,6 +18,10 @@ const badgeVariants = cva(
         male: "border-transparent bg-blue-600 text-primary-foreground shadow hover:bg-blue-600/80",
         female:
           "border-transparent bg-pink-600 text-primary-foreground shadow hover:bg-female/80",
+        activo:
+          "border-transparent bg-green-100 text-green-700 shadow hover:bg-green-100/80 dark:text-green-900 dark:bg-green-400",
+        desactivo:
+          "border-transparent bg-red-100 text-red-700 shadow hover:bg-red-100/80 dark:text-red-900 dark:bg-red-400",
       },
     },
     defaultVariants: {

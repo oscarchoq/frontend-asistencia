@@ -15,6 +15,7 @@ import { DataTableDemo } from "./app/pages/DataTableDemo";
 import TableDemo from "./app/pages/TableDemo";
 
 import FormPersona from "./app/pages/persona/FormPersona";
+import HomePersona from "./app/pages/persona/HomePersona";
 function App() {
   return (
     <>
@@ -30,9 +31,9 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/" element={<LayoutAdmin />}>
                 <Route index element={<Home />} />
-                <Route path="/estudiante" element={<EstudiantePage />} />
-                {/* <Route path="/estudiante" element={<EstudiantePage />} /> */}
+                <Route path="/estudiante" element={<HomePersona />} />
                 <Route path="/estudiante/registrar" element={<FormPersona />} />
+                {/* <Route path="/estudiante" element={<EstudiantePage />} /> */}
                 {/* <Route
                   path="/estudiante/ver/:id"
                   element={<UpdatePersona action={1} />}
