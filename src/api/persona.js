@@ -9,3 +9,5 @@ export const updateStudent = (id, data) =>
   axios.post(baseURL + `/estudiante/${id}`, data);
 
 export const findReniecURI = (dni) => axios.post(baseURL + "/reniec", dni);
+export const changeStatusURI = (id, data) =>
+  axios.post(baseURL + `/estudiante/${id}/status`, data);

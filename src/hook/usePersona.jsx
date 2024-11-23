@@ -4,6 +4,7 @@ import {
   registerStudent,
   updateStudent,
   findReniecURI,
+  changeStatusURI,
 } from "@/api/persona";
 import { toast } from "sonner";
 
@@ -117,6 +118,24 @@ const updatePerson = async (typePerson, id, person) => {
   }
 };
 
+const changeStatusPerson = async (id, data) => {
+  try {
+    console.log("ID => ", id, " DATA => ", { Activo: data });
+    const response = await changeStatusURI(id, { Activo: data });
+    console.log("changeStatusPerson => ", response);
+  } catch (error) {
+    // console.log(error);
+    if (error.status === 409) {
+      console.log("hOLI");
+      toast.error(error.response.data.error, {
+        position: "top-right",
+        duration: 2000,
+      });
+      return false;
+    }
+  }
+};
+
 export const usePersona = () => {
   return {
     findReniec,
@@ -124,5 +143,6 @@ export const usePersona = () => {
     getPersona,
     getPersonaById,
     updatePerson,
+    changeStatusPerson,
   };
 };

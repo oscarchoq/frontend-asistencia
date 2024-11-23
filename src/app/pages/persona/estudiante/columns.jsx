@@ -1,12 +1,26 @@
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { Badge } from "@/components/ui/badge";
-import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { TrashIcon } from "@radix-ui/react-icons";
-import { Trash } from "lucide-react";
+import { usePersona } from "@/hook/usePersona";
 import { FaPencilAlt } from "react-icons/fa";
 import { IoEyeSharp, IoTrashSharp } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { useState } from "react";
+import Loading from "@/components/custom/loading";
+
+const { changeStatusPerson } = usePersona();
 
 export const columns = [
   {
@@ -57,10 +71,22 @@ export const columns = [
     id: "Acciones",
     header: () => <div className="text-right">Acciones</div>,
     cell: ({ row }) => {
+      console.log("activo => ", row.original.Activo);
+      const [isDialogOpen, setIsDialogOpen] = useState(false); // estado para abrir el AlertDialog
+      const [newStatus, setNewStatus] = useState(row.original.Activo); // estado para el nuevo valor de Activo
+      const navigate = useNavigate();
+
+      const handleConfirmChange = async () => {
+        await changeStatusPerson(row.original.PersonaID, newStatus); // Cambiar el estado
+        setIsDialogOpen(false); // Cerrar el AlertDialog
+        navigate(0);
+      };
       return (
         <div className="flex justify-center items-center gap-x-2">
-          <Switch className="" id="airplane-mode" />
-          <Label htmlFor="airplane-mode"> </Label>
+          <Switch
+            checked={newStatus}
+            onCheckedChange={() => setIsDialogOpen(true)} // Cambia el estado cuando se cambia el switch
+          />
           <Link
             to={`editar/${row.original.PersonaID}`}
             className="bg-green-700 p-1 rounded text-white"
@@ -73,6 +99,27 @@ export const columns = [
           >
             <IoTrashSharp size={14} />
           </Link>
+
+          <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  ¿Estás seguro de cambiar el estado?
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  Esta acción cambiará el estado del usuario. ¿Deseas continuar?
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>
+                  Cancelar
+                </AlertDialogCancel>
+                <AlertDialogAction onClick={handleConfirmChange}>
+                  Continuar
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       );
     },
