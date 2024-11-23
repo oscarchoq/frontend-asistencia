@@ -62,13 +62,13 @@ export const columns = [
           <Switch className="" id="airplane-mode" />
           <Label htmlFor="airplane-mode"> </Label>
           <Link
-            to={`ver/${row.original.id}`}
+            to={`editar/${row.original.PersonaID}`}
             className="bg-green-700 p-1 rounded text-white"
           >
             <FaPencilAlt size={14} />
           </Link>
           <Link
-            to={`editar/${row.original.id}`}
+            to={`eliminar/${row.original.id}`}
             className="bg-red-700 p-1 rounded text-white"
           >
             <IoTrashSharp size={14} />

@@ -16,6 +16,7 @@ import TableDemo from "./app/pages/TableDemo";
 
 import FormPersona from "./app/pages/persona/FormPersona";
 import HomePersona from "./app/pages/persona/HomePersona";
+import FormSkeleton from "./app/pages/persona/FormSkeleton";
 function App() {
   return (
     <>
@@ -32,7 +33,15 @@ function App() {
               <Route path="/" element={<LayoutAdmin />}>
                 <Route index element={<Home />} />
                 <Route path="/estudiante" element={<HomePersona />} />
-                <Route path="/estudiante/registrar" element={<FormPersona />} />
+                <Route
+                  path="/estudiante/registrar"
+                  element={<FormPersona typeForm={1} />}
+                />
+                <Route
+                  path="/estudiante/editar/:id"
+                  element={<FormPersona typeForm={2} />}
+                />
+                <Route path="/estudiante/skeleton" element={<FormSkeleton />} />
                 {/* <Route path="/estudiante" element={<EstudiantePage />} /> */}
                 {/* <Route
                   path="/estudiante/ver/:id"

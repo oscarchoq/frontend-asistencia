@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Search, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -25,38 +25,29 @@ import { usePersona } from "@/hook/usePersona";
 import { formSchemaEstudiante } from "./SchemaEstudiante";
 import { formSchemaDocente } from "./SchemaDocente";
 import { toast } from "sonner";
+import FormSkeleton from "./FormSkeleton";
 
 // typeForm: 1 = registrar, 2 = editar
 // typePerson: 1 = estudiante, 2 = profesor
-const FormPersona = ({ typeForm = 1, typePerson = 1 }) => {
-  // Combos
+const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
+  // Start -- Combos
   const { fetchGradoInstruccion, fetchTipoDocumento, fetchEstadoCivil } =
     useFetchCombos();
   const [tipoDocs, setTipoDocs] = useState([]);
   const [estadoCivil, setEstadoCivil] = useState([]);
   const [gradosIns, setGradosIns] = useState([]);
+  // End -- Combos
+
   const [selectTipoDoc, setSelectTipoDoc] = useState(1);
   const [loadingBtn, setLoadingBtn] = useState(false);
+  const [person, setPerson] = useState(null);
 
-  const { findReniec, registerPerson } = usePersona();
+  const { findReniec, registerPerson, getPersonaById, updatePerson } =
+    usePersona();
+
+  // React Hook Form
   const navigate = useNavigate();
-
-  useEffect(() => {
-    async function getCombos() {
-      const combo1 = await fetchTipoDocumento();
-      const combo2 = await fetchEstadoCivil();
-      const combo3 = await fetchGradoInstruccion();
-
-      setTipoDocs(combo1);
-      setEstadoCivil(combo2);
-      setGradosIns(combo3);
-
-      console.log(combo1);
-      console.log(combo2);
-      console.log(combo3);
-    }
-    getCombos();
-  }, []);
+  const { id } = useParams();
 
   // Formulario
   const form = useForm({
@@ -81,6 +72,66 @@ const FormPersona = ({ typeForm = 1, typePerson = 1 }) => {
     },
   });
 
+  // Traer combos
+  useEffect(() => {
+    async function getCombos() {
+      const combo1 = await fetchTipoDocumento();
+      const combo2 = await fetchEstadoCivil();
+      const combo3 = await fetchGradoInstruccion();
+
+      setTipoDocs(combo1);
+      setEstadoCivil(combo2);
+      setGradosIns(combo3);
+
+      console.log(combo1);
+      console.log(combo2);
+      console.log(combo3);
+    }
+    getCombos();
+  }, []);
+
+  // Obtener informacion de la persona con id
+  useEffect(() => {
+    async function getPerson() {
+      if (id) {
+        const persona = await getPersonaById(id);
+        console.log("existe", persona);
+        setPerson(persona);
+
+        // Convierte los ID a string
+        const tipoDocID = persona?.TipoDocID
+          ? persona.TipoDocID.toString()
+          : "";
+        const EstadoCivilID = persona?.EstadoCivilID
+          ? persona.EstadoCivilID.toString()
+          : "";
+        const GradoInstruccionID = persona?.GradoInstruccionID
+          ? persona.GradoInstruccionID.toString()
+          : "";
+
+        // Cuando los datos de `persona` estén disponibles, actualizamos el formulario
+        form.reset({
+          Codigo: persona?.Codigo || "",
+          TipoDocID: tipoDocID,
+          NumeroDocumento: persona?.NumeroDocumento || "",
+          ApellidoPaterno: persona?.ApellidoPaterno || "",
+          ApellidoMaterno: persona?.ApellidoMaterno || "",
+          Nombres: persona?.Nombres || "",
+          Sexo: persona?.Sexo || "",
+          NumeroCelular: persona?.NumeroCelular || "",
+          NumeroCelular2: persona?.NumeroCelular2 || "",
+          CorreoInstitucional: persona?.CorreoInstitucional || "",
+          CorreoPersonal: persona?.CorreoPersonal || "",
+          FechaNacimiento: persona?.FechaNacimiento || "",
+          EstadoCivilID: EstadoCivilID,
+          GradoInstruccionID: GradoInstruccionID,
+        });
+      }
+    }
+
+    getPerson();
+  }, [id]); // Re-ejecuta cuando `id` o `form` cambian
+
   const onSubmit = async (data) => {
     console.log(data);
 
@@ -92,6 +143,10 @@ const FormPersona = ({ typeForm = 1, typePerson = 1 }) => {
 
     // Update de estudiante
     if (typeForm === 2 && typePerson === 1) {
+      console.log("datos a actualizar => ", data);
+      const status = await updatePerson(typePerson, id, data);
+      console.log("status desde el form => ", status);
+      if (status === 2 && typePerson === 1) navigate("/estudiante");
     }
 
     // Insert de docente
@@ -112,6 +167,7 @@ const FormPersona = ({ typeForm = 1, typePerson = 1 }) => {
     form.setValue("Nombres", resultado.nombres);
   };
 
+  if (!person && typeForm === 2) return <FormSkeleton />;
   return (
     <div>
       <div className="flex flex-col pb-8">
@@ -136,9 +192,12 @@ const FormPersona = ({ typeForm = 1, typePerson = 1 }) => {
                 <FormItem>
                   <FormLabel>Tipo Documento</FormLabel>
                   <Select
+                    disabled={typeForm === 2 ? true : false}
                     onValueChange={(value) => {
                       field.onChange(value);
                       setSelectTipoDoc(value);
+                      console.log("field", field);
+                      console.log("value", value);
                     }}
                     defaultValue={field.value}
                   >
@@ -172,7 +231,10 @@ const FormPersona = ({ typeForm = 1, typePerson = 1 }) => {
                   <FormLabel>N° Documento</FormLabel>
                   <div className="flex space-x-2">
                     <FormControl>
-                      <Input {...field} />
+                      <Input
+                        disabled={typeForm === 2 ? true : false}
+                        {...field}
+                      />
                     </FormControl>
                     {selectTipoDoc === "1" && (
                       <Button
@@ -446,8 +508,14 @@ const FormPersona = ({ typeForm = 1, typePerson = 1 }) => {
             />
           </div>
           <div className="flex gap-6 justify-center py-6">
-            <Button type="submit">Registrar</Button>
-            <Button variant="outline" onClick={() => navigate(-1)}>
+            <Button type="submit">
+              {typeForm === 1 ? "Registrar" : "Actualizar"}
+            </Button>
+            <Button
+              variant="outline"
+              type="button"
+              onClick={() => navigate(-1)}
+            >
               Cancelar
             </Button>
           </div>

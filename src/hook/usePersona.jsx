@@ -22,6 +22,7 @@ const registerPerson = async (typePerson, person) => {
     // TipoPersonaID: 1=ADMINISTRADOR; 2=ESTUDIANTE; 3=DOCENTE
     // Insert de estudiante
     if (typePerson === 1) {
+      console.log("INSERTAR ESTUDIANTE => ", person);
       const response = await registerStudent({ ...person, TipoPersonaID: 2 });
       console.log(response);
       if (response.status === 200) {
@@ -35,15 +36,16 @@ const registerPerson = async (typePerson, person) => {
 
     // Insert de docente
     if (typePerson === 2) {
-      const response = await registerStudent({ ...person, TipoPersonaID: 3 });
-      console.log(response);
-      if (response.status === 200) {
-        toast.success(response.data.message, {
-          position: "top-right",
-          duration: 2000,
-        });
-        return true;
-      }
+      console.log("Insertar docente");
+      // const response = await registerStudent({ ...person, TipoPersonaID: 3 });
+      // console.log(response);
+      // if (response.status === 200) {
+      //   toast.success(response.data.message, {
+      //     position: "top-right",
+      //     duration: 2000,
+      //   });
+      //   return true;
+      // }
     }
   } catch (error) {
     // console.log(error);
@@ -73,13 +75,14 @@ const getPersonaById = async (id) => {
   } catch (error) {}
 };
 
-const updatePerson = async (id, person, type = 2) => {
+const updatePerson = async (typePerson, id, person) => {
   try {
-    if (type === 2) {
+    // Insert de estudiante
+    if (typePerson === 1) {
       // Estudiante
       const response = await updateStudent(id, {
         ...person,
-        tipo_pers_id: type,
+        TipoPersonaID: 2,
       });
       console.log(response.data.result);
       if (response.data.result === 0) {
@@ -101,7 +104,17 @@ const updatePerson = async (id, person, type = 2) => {
     if (type === 3) {
       // Docente
     }
-  } catch (error) {}
+  } catch (error) {
+    // console.log(error);
+    if (error.status === 409) {
+      console.log("hOLI");
+      toast.error(error.response.data.error, {
+        position: "top-right",
+        duration: 2000,
+      });
+      return false;
+    }
+  }
 };
 
 export const usePersona = () => {
