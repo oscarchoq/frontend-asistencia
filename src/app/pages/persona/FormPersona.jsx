@@ -94,7 +94,7 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
   useEffect(() => {
     async function getPerson() {
       if (id) {
-        const persona = await getPersonaById(id);
+        const persona = await getPersonaById(id, typePerson);
         console.log("existe", persona);
         setPerson(persona);
 
@@ -143,7 +143,7 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
 
     // Update de estudiante
     if (typeForm === 2 && typePerson === 1) {
-      console.log("datos a actualizar => ", data);
+      console.log("UDP DATA EST => ", data);
       const status = await updatePerson(typePerson, id, data);
       console.log("status desde el form => ", status);
       if (status === 2 && typePerson === 1) navigate("/estudiante");
@@ -151,10 +151,18 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
 
     // Insert de docente
     if (typeForm === 1 && typePerson === 2) {
+      console.log("INS DOCENTE => ", data);
+      const status = await registerPerson(typePerson, data);
+      console.log("STATUS DOc => ", status);
+      if (status && typePerson === 2) navigate("/docente");
     }
 
     // Update de docente
     if (typeForm === 2 && typePerson === 2) {
+      console.log("UDP DATA DOC => ", data);
+      const status = await updatePerson(typePerson, id, data);
+      console.log("status desde el form => ", status);
+      if (status === 2 && typePerson === 2) navigate("/docente");
     }
   };
 
@@ -289,7 +297,12 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
                   <FormItem>
                     <FormLabel>Cod. Matricula</FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input
+                        disabled={
+                          typeForm === 2 && typePerson === 2 ? true : false
+                        }
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

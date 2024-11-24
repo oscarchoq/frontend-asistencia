@@ -9,7 +9,7 @@ const ListarEstudiantes = () => {
 
   useEffect(() => {
     const get = async () => {
-      const res = await getPersona();
+      const res = await getPersona(1);
       // console.log("res", res);
       setStudents(res);
     };

@@ -2,12 +2,21 @@ import { number, z } from "zod";
 
 export const formSchemaDocente = z
   .object({
-    Codigo: z.string().optional().or(z.literal("")),
-    TipoDocID: z.string({
+    Codigo: z.string({
       message: "Campo obligatorio",
     }),
+    TipoDocID: z
+      .string({
+        message: "Campo obligatorio",
+      })
+      .min(1, {
+        message: "Campo obligatorio",
+      }),
     NumeroDocumento: z
       .string({
+        message: "Campo obligatorio",
+      })
+      .min(1, {
         message: "Campo obligatorio",
       })
       .min(8, {
@@ -20,19 +29,25 @@ export const formSchemaDocente = z
       .string({
         message: "Campo obligatorio",
       })
-      .min(3)
+      .min(1, {
+        message: "Campo obligatorio",
+      })
       .max(50),
     ApellidoMaterno: z
       .string({
         message: "Campo obligatorio",
       })
-      .min(3)
+      .min(1, {
+        message: "Campo obligatorio",
+      })
       .max(50),
     Nombres: z
       .string({
         message: "Campo obligatorio",
       })
-      .min(3)
+      .min(1, {
+        message: "Campo obligatorio",
+      })
       .max(100),
     Sexo: z.enum(["MASCULINO", "FEMENINO"], {
       message: "Campo obligatorio",
@@ -64,7 +79,9 @@ export const formSchemaDocente = z
       .optional()
       .or(z.literal("")),
     CorreoInstitucional: z
-      .string()
+      .string({
+        message: "Campo obligatorio",
+      })
       .email({
         message: "El correo institucional debe ser un email",
       })
@@ -78,12 +95,20 @@ export const formSchemaDocente = z
       .optional()
       .or(z.literal("")),
     FechaNacimiento: z.string(),
-    EstadoCivilID: z.string({
-      message: "Campo obligatorio",
-    }),
-    GradoInstruccionID: z.string({
-      message: "Campo obligatorio",
-    }),
+    EstadoCivilID: z
+      .string({
+        message: "Campo obligatorio",
+      })
+      .min(1, {
+        message: "Campo obligatorio",
+      }),
+    GradoInstruccionID: z
+      .string({
+        message: "Campo obligatorio",
+      })
+      .min(1, {
+        message: "Campo obligatorio",
+      }),
   })
   .superRefine((data, ctx) => {
     if (data.TipoDocID === "1" || data.TipoDocID === 1) {
