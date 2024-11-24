@@ -163,6 +163,7 @@ const changeStatusPerson = async (id, data) => {
     console.log("ID => ", id, " DATA => ", { Activo: data });
     const response = await changeStatusURI(id, { Activo: data });
     console.log("changeStatusPerson => ", response);
+    return response;
   } catch (error) {
     // console.log(error);
     if (error.status === 409) {

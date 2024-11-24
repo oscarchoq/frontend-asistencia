@@ -1,10 +1,8 @@
-import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
-import { Badge } from "@/components/ui/badge";
-import { Switch } from "@/components/ui/switch";
-import { usePersona } from "@/hook/usePersona";
-import { FaPencilAlt } from "react-icons/fa";
-import { IoEyeSharp, IoTrashSharp } from "react-icons/io5";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
+import { FaPencilAlt } from "react-icons/fa";
+import { IoTrashSharp } from "react-icons/io5";
 
 import {
   AlertDialog,
@@ -15,13 +13,12 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 
-const { changeStatusPerson } = usePersona();
-
-export const columns = [
+export const columns = ({ onStatusChange }) => [
   {
     accessorKey: "PersonaID",
     header: ({ column }) => (
@@ -71,58 +68,63 @@ export const columns = [
     header: () => <div className="text-right">Acciones</div>,
     cell: ({ row }) => {
       console.log("activo => ", row.original.Activo);
-      const [isDialogOpen, setIsDialogOpen] = useState(false); // estado para abrir el AlertDialog
-      const [newStatus, setNewStatus] = useState(row.original.Activo); // estado para el nuevo valor de Activo
-      const navigate = useNavigate();
-
-      const handleConfirmChange = async () => {
-        await changeStatusPerson(row.original.PersonaID, newStatus); // Cambiar el estado
-        setIsDialogOpen(false); // Cerrar el AlertDialog
-        navigate(0);
-      };
       return (
-        <div className="flex justify-center items-center gap-x-2">
-          <Switch
-            checked={newStatus}
-            onCheckedChange={() => setIsDialogOpen(true)} // Cambia el estado cuando se cambia el switch
-          />
-          <Link
-            to={`editar/${row.original.PersonaID}`}
-            className="bg-green-700 p-1 rounded text-white"
-          >
-            <FaPencilAlt size={14} />
-          </Link>
-          <Link
-            to={`eliminar/${row.original.id}`}
-            className="bg-red-700 p-1 rounded text-white"
-          >
-            <IoTrashSharp size={14} />
-          </Link>
-
-          <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>
-                  ¿Estás seguro de cambiar el estado?
-                </AlertDialogTitle>
-                <AlertDialogDescription>
-                  Esta acción cambiará el estado del usuario. ¿Deseas continuar?
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>
-                  Cancelar
-                </AlertDialogCancel>
-                <AlertDialogAction onClick={handleConfirmChange}>
-                  Continuar
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </div>
+        <ActionsButtons
+          persona={row.original}
+          onStatusChange={onStatusChange}
+        />
       );
     },
   },
 ];
 
-// N, codigo, apellidos y nombres, nro doc, plan, prog acad, sed,mod, estado, acciones
+const ActionsButtons = ({ persona, onStatusChange }) => {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [newStatus, setNewStatus] = useState(persona.Activo);
+
+  const handleConfirmChange = async () => {
+    await onStatusChange(persona.PersonaID, newStatus); // Llamar la función pasada como prop
+    setIsDialogOpen(false);
+  };
+  return (
+    <div className="flex justify-center items-center gap-x-2">
+      <Switch
+        checked={newStatus}
+        onCheckedChange={() => setIsDialogOpen(true)} // Cambia el estado cuando se cambia el switch
+      />
+      <Link
+        to={`editar/${persona.PersonaID}`}
+        className="bg-green-700 p-1 rounded text-white"
+      >
+        <FaPencilAlt size={14} />
+      </Link>
+      <Link
+        to={`eliminar/${persona.PersonaID}`}
+        className="bg-red-700 p-1 rounded text-white"
+      >
+        <IoTrashSharp size={14} />
+      </Link>
+
+      <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              ¿Estás seguro de cambiar el estado?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              Esta acción cambiará el estado del usuario. ¿Deseas continuar?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>
+              Cancelar
+            </AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmChange}>
+              Continuar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </div>
+  );
+};

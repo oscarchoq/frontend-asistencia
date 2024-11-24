@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { usePersona } from "@/hook/usePersona";
 
 const ListarEstudiantes = () => {
-  const { getPersona } = usePersona();
+  const { getPersona, changeStatusPerson } = usePersona();
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
@@ -16,9 +16,21 @@ const ListarEstudiantes = () => {
     get();
   }, []);
 
+  const handleChangeStatus = async (personaID, newStatus) => {
+    const res = await changeStatusPerson(personaID, newStatus);
+    console.log(res);
+    if (res.status === 200) {
+      const estudiantes = await getPersona(1);
+      setStudents(estudiantes);
+    }
+  };
+
   return (
     <div>
-      <DataTable columns={columns} data={students} />
+      <DataTable
+        columns={columns({ onStatusChange: handleChangeStatus })}
+        data={students}
+      />
     </div>
   );
 };
