@@ -279,19 +279,23 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
             />
 
             {/* Codigo de estudiante / docente */}
-            <FormField
-              control={form.control}
-              name="Codigo"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Cod. Matricula</FormLabel>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {typeForm === 1 && typePerson === 2 ? (
+              <div></div>
+            ) : (
+              <FormField
+                control={form.control}
+                name="Codigo"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Cod. Matricula</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
 
             {/* Segunda Fila */}
 
@@ -459,6 +463,7 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -473,6 +478,7 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -489,6 +495,7 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -503,6 +510,7 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
                   <FormControl>
                     <Input {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />

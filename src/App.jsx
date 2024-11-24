@@ -32,25 +32,34 @@ function App() {
               <Route path="/login" element={<LoginPage />} />
               <Route path="/" element={<LayoutAdmin />}>
                 <Route index element={<Home />} />
-                <Route path="/estudiante" element={<HomePersona />} />
+                {/* ESTUDIANTE */}
+                <Route
+                  path="/estudiante"
+                  element={<HomePersona typePerson={1} />}
+                />
                 <Route
                   path="/estudiante/registrar"
-                  element={<FormPersona typeForm={1} />}
+                  element={<FormPersona typeForm={1} typePerson={1} />}
                 />
                 <Route
                   path="/estudiante/editar/:id"
-                  element={<FormPersona typeForm={2} />}
+                  element={<FormPersona typeForm={2} typePerson={1} />}
                 />
-                <Route path="/estudiante/skeleton" element={<FormSkeleton />} />
-                {/* <Route path="/estudiante" element={<EstudiantePage />} /> */}
-                {/* <Route
-                  path="/estudiante/ver/:id"
-                  element={<UpdatePersona action={1} />}
+                {/* <Route path="/estudiante/skeleton" element={<FormSkeleton />} /> */}
+
+                {/* DOCENTE */}
+                <Route
+                  path="/docente"
+                  element={<HomePersona typePerson={2} />}
                 />
                 <Route
-                  path="/estudiante/editar/:id"
-                  element={<UpdatePersona action={2} />}
-                /> */}
+                  path="/docente/registrar"
+                  element={<FormPersona typeForm={1} typePerson={2} />}
+                />
+                <Route
+                  path="/docente/editar/:id"
+                  element={<FormPersona typeForm={2} typePerson={2} />}
+                />
               </Route>
             </Routes>
           </Router>

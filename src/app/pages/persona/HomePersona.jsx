@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { ListarEstudiantes } from "./estudiante/Page";
 import { ListarDocentes } from "./docente/Page";
 
-const HomePersona = ({ typePerson = 1 }) => {
+const HomePersona = ({ typePerson }) => {
   // typePerson: 1 ESTUDIANTE; 2 DOCENTE
   return (
     <div>
