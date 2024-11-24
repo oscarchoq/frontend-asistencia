@@ -40,6 +40,8 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
 
   const [selectTipoDoc, setSelectTipoDoc] = useState(1);
   const [loadingBtn, setLoadingBtn] = useState(false);
+  const [loadingSubmit, setLoadingSubmit] = useState(false);
+
   const [person, setPerson] = useState(null);
 
   const { findReniec, registerPerson, getPersonaById, updatePerson } =
@@ -83,9 +85,9 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
       setEstadoCivil(combo2);
       setGradosIns(combo3);
 
-      console.log(combo1);
-      console.log(combo2);
-      console.log(combo3);
+      // console.log(combo1);
+      // console.log(combo2);
+      // console.log(combo3);
     }
     getCombos();
   }, []);
@@ -95,7 +97,7 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
     async function getPerson() {
       if (id) {
         const persona = await getPersonaById(id, typePerson);
-        console.log("existe", persona);
+        // console.log("existe", persona);
         setPerson(persona);
 
         // Convierte los ID a string
@@ -133,8 +135,8 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
   }, [id]); // Re-ejecuta cuando `id` o `form` cambian
 
   const onSubmit = async (data) => {
-    console.log(data);
-
+    // console.log(data);
+    setLoadingSubmit(true);
     // Insert de estudiante
     if (typeForm === 1 && typePerson === 1) {
       const status = await registerPerson(typePerson, data);
@@ -143,27 +145,28 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
 
     // Update de estudiante
     if (typeForm === 2 && typePerson === 1) {
-      console.log("UDP DATA EST => ", data);
+      // console.log("UDP DATA EST => ", data);
       const status = await updatePerson(typePerson, id, data);
-      console.log("status desde el form => ", status);
+      // console.log("status desde el form => ", status);
       if (status === 2 && typePerson === 1) navigate("/estudiante");
     }
 
     // Insert de docente
     if (typeForm === 1 && typePerson === 2) {
-      console.log("INS DOCENTE => ", data);
+      // console.log("INS DOCENTE => ", data);
       const status = await registerPerson(typePerson, data);
-      console.log("STATUS DOc => ", status);
+      // console.log("STATUS DOc => ", status);
       if (status && typePerson === 2) navigate("/docente");
     }
 
     // Update de docente
     if (typeForm === 2 && typePerson === 2) {
-      console.log("UDP DATA DOC => ", data);
+      // console.log("UDP DATA DOC => ", data);
       const status = await updatePerson(typePerson, id, data);
-      console.log("status desde el form => ", status);
+      // console.log("status desde el form => ", status);
       if (status === 2 && typePerson === 2) navigate("/docente");
     }
+    setLoadingSubmit(false);
   };
 
   const searchReniec = async (dni) => {
@@ -529,8 +532,15 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
             />
           </div>
           <div className="flex gap-6 justify-center py-6">
-            <Button type="submit">
-              {typeForm === 1 ? "Registrar" : "Actualizar"}
+            <Button type="submit" disabled={loadingSubmit}>
+              {loadingSubmit === true ? (
+                <>
+                  <Loader2 size={18} className="animate-spin mr-2" />
+                  Cargando
+                </>
+              ) : (
+                <>{typeForm === 1 ? "Registrar" : "Actualizar"}</>
+              )}
             </Button>
             <Button
               variant="outline"

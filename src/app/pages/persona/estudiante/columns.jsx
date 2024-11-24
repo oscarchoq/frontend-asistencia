@@ -67,7 +67,7 @@ export const columns = ({ onStatusChange }) => [
     id: "Acciones",
     header: () => <div className="text-right">Acciones</div>,
     cell: ({ row }) => {
-      console.log("activo => ", row.original.Activo);
+      // console.log("activo => ", row.original.Activo);
       return (
         <ActionsButtons
           persona={row.original}

@@ -27,9 +27,9 @@ const registerPerson = async (typePerson, person) => {
     // TipoPersonaID: 1=ADMINISTRADOR; 2=ESTUDIANTE; 3=DOCENTE
     // Insert de estudiante
     if (typePerson === 1) {
-      console.log("INSERTAR ESTUDIANTE => ", person);
+      // console.log("INSERTAR ESTUDIANTE => ", person);
       const response = await registerStudent({ ...person, TipoPersonaID: 2 });
-      console.log(response);
+      // console.log(response);
       if (response.status === 200) {
         toast.success(response.data.message, {
           position: "top-right",
@@ -41,9 +41,9 @@ const registerPerson = async (typePerson, person) => {
 
     // Insert de docente
     if (typePerson === 2) {
-      console.log("INSERTAR DDOCENTE => ", person);
+      // console.log("INSERTAR DDOCENTE => ", person);
       const response = await registerDocente({ ...person, TipoPersonaID: 3 });
-      console.log(response);
+      // console.log(response);
       if (response.status === 200) {
         toast.success(response.data.message, {
           position: "top-right",
@@ -55,7 +55,7 @@ const registerPerson = async (typePerson, person) => {
   } catch (error) {
     // console.log(error);
     if (error.status === 409) {
-      console.log("hOLI");
+      // console.log("hOLI");
       toast.error(error.response.data.error, {
         position: "top-right",
         duration: 2000,
@@ -75,7 +75,7 @@ const getPersona = async (typePerson) => {
 
     if (typePerson === 2) {
       const response = await getDocentes();
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     }
   } catch (error) {}
@@ -84,13 +84,13 @@ const getPersonaById = async (id, typePerson) => {
   try {
     if (typePerson === 1) {
       const response = await getStudentById(id);
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     }
 
     if (typePerson === 2) {
       const response = await getDocenteById(id);
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
     }
   } catch (error) {}
@@ -105,7 +105,7 @@ const updatePerson = async (typePerson, id, person) => {
         ...person,
         TipoPersonaID: 2,
       });
-      console.log(response.data.result);
+      // console.log(response.data.result);
       if (response.data.result === 0) {
         toast.success("No hay campos para actualizar", {
           position: "top-right",
@@ -124,12 +124,12 @@ const updatePerson = async (typePerson, id, person) => {
 
     if (typePerson === 2) {
       // Docente
-      console.log("Si manda no? ");
+      // console.log("Si manda no? ");
       const response = await updateDocente(id, {
         ...person,
         TipoPersonaID: 3,
       });
-      console.log(response.data.result);
+      // console.log(response.data.result);
       if (response.data.result === 0) {
         toast.success("No hay campos para actualizar", {
           position: "top-right",
@@ -148,7 +148,7 @@ const updatePerson = async (typePerson, id, person) => {
   } catch (error) {
     // console.log(error);
     if (error.status === 409) {
-      console.log("hOLI");
+      // console.log("hOLI");
       toast.error(error.response.data.error, {
         position: "top-right",
         duration: 2000,
@@ -160,14 +160,14 @@ const updatePerson = async (typePerson, id, person) => {
 
 const changeStatusPerson = async (id, data) => {
   try {
-    console.log("ID => ", id, " DATA => ", { Activo: data });
+    // console.log("ID => ", id, " DATA => ", { Activo: data });
     const response = await changeStatusURI(id, { Activo: data });
-    console.log("changeStatusPerson => ", response);
+    // console.log("changeStatusPerson => ", response);
     return response;
   } catch (error) {
     // console.log(error);
     if (error.status === 409) {
-      console.log("hOLI");
+      // console.log("hOLI");
       toast.error(error.response.data.error, {
         position: "top-right",
         duration: 2000,
