@@ -64,7 +64,7 @@ export function DataTableToolbar({ table }) {
             variant="ghost"
             onClick={() => {
               table.resetColumnFilters();
-              setCurrenStatus(3);
+              setCurrenStatus("ALL");
             }}
             className="h-8 px-2 lg:px-3"
           >

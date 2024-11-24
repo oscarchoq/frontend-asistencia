@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Search, Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { useNavigate, useParams } from "react-router-dom";
-import { zodResolver } from "@hookform/resolvers/zod";
+
 import {
   Form,
   FormControl,
@@ -20,12 +21,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+
+import { formSchemaEstudiante } from "./estudiante/SchemaEstudiante";
+import { formSchemaDocente } from "./docente/SchemaDocente";
+import FormSkeleton from "./FormSkeleton";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useFetchCombos } from "@/hook/useFetchCombos";
 import { usePersona } from "@/hook/usePersona";
-import { formSchemaEstudiante } from "./SchemaEstudiante";
-import { formSchemaDocente } from "./SchemaDocente";
-import { toast } from "sonner";
-import FormSkeleton from "./FormSkeleton";
 
 // typeForm: 1 = registrar, 2 = editar
 // typePerson: 1 = estudiante, 2 = profesor

@@ -21,15 +21,12 @@ const HomePersona = ({ typePerson }) => {
 
       {/* Button and Table */}
       <div className="space-y-6">
-        <Button>
-          <Link
-            to={"registrar"}
-            className="flex items-center justify-center pr-1"
-          >
+        <Link to={"registrar"}>
+          <Button>
             <Plus size={16} className="mr-2" />
             Nuevo
-          </Link>
-        </Button>
+          </Button>
+        </Link>
 
         {typePerson === 1 ? <ListarEstudiantes /> : <ListarDocentes />}
       </div>

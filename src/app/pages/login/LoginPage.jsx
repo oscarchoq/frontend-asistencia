@@ -1,3 +1,7 @@
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+
 import {
   Card,
   CardContent,
@@ -16,12 +20,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { useForm } from "react-hook-form";
-import { formSchema } from "./Schema";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@/context/AuthContext";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { formSchema } from "./Schema";
 
 const LoginPage = () => {
   const { signIn, isAuthenticated } = useAuth();
