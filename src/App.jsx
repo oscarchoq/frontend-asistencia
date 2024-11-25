@@ -9,6 +9,7 @@ import LayoutAdmin from "./app/layouts/LayoutAdmin";
 import LoginPage from "./app/pages/login/LoginPage";
 import HomePersona from "./app/pages/persona/HomePersona";
 import FormPersona from "./app/pages/persona/FormPersona";
+import { ListarPeriodo } from "./app/pages/academico/periodo/Page";
 function App() {
   return (
     <>
@@ -46,6 +47,9 @@ function App() {
                   path="/docente/editar/:id"
                   element={<FormPersona typeForm={2} typePerson={2} />}
                 />
+
+                {/* PERIODO ACADEMICO */}
+                <Route path="/periodoacademico" element={<ListarPeriodo />} />
               </Route>
             </Routes>
           </Router>

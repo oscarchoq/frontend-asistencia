@@ -6,6 +6,7 @@ const links = [
   { name: "Home", href: "", icon: HomeIcon },
   { name: "estudiante", href: "estudiante" },
   { name: "docente", href: "docente" },
+  { name: "periodo", href: "periodoacademico" },
 ];
 
 const Sidebar = () => {
