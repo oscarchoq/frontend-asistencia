@@ -17,8 +17,9 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
+import { Button } from "@/components/ui/button";
 
-export const columns = ({ onStatusChange }) => [
+export const columns = ({ onStatusChange, setShowDialog, setData }) => [
   {
     accessorKey: "PeriodoID",
     header: ({ column }) => (
@@ -72,13 +73,20 @@ export const columns = ({ onStatusChange }) => [
         <ActionsButtons
           periodo={row.original}
           onStatusChange={onStatusChange}
+          setShowDialog={setShowDialog}
+          setData={setData}
         />
       );
     },
   },
 ];
 
-const ActionsButtons = ({ periodo, onStatusChange }) => {
+const ActionsButtons = ({
+  periodo,
+  onStatusChange,
+  setShowDialog,
+  setData,
+}) => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newStatus, setNewStatus] = useState(periodo.Activo);
 
@@ -92,18 +100,21 @@ const ActionsButtons = ({ periodo, onStatusChange }) => {
         checked={newStatus}
         onCheckedChange={() => setIsDialogOpen(true)} // Cambia el estado cuando se cambia el switch
       />
-      <Link
-        to={`editar/${periodo.PeriodoID}`}
-        className="bg-green-700 p-1 rounded text-white"
+      <Button
+        type="button"
+        size="option"
+        className="bg-green-700"
+        onClick={() => {
+          console.log(periodo);
+          setShowDialog(true);
+          setData(periodo);
+        }}
       >
-        <FaPencilAlt size={14} />
-      </Link>
-      <Link
-        to={`eliminar/${periodo.PeriodoID}`}
-        className="bg-red-700 p-1 rounded text-white"
-      >
-        <IoTrashSharp size={14} />
-      </Link>
+        <FaPencilAlt />
+      </Button>
+      <Button type="button" size="option" className="bg-red-700">
+        <IoTrashSharp />
+      </Button>
 
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <AlertDialogContent>

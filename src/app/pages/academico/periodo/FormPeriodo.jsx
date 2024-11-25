@@ -11,25 +11,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 
-const FormPeriodo = ({ onSubmit }) => {
+const FormPeriodo = ({ onSubmit, data = null }) => {
   // Formulario
   const form = useForm({
     resolver: zodResolver(PeriodoSchema),
     defaultValues: {
-      Anio: "",
-      Ciclo: "",
-      Denominacion: "",
-      FechaInicio: "",
-      FechaFin: "",
+      Anio: data !== null ? data.Anio.toString() : "",
+      Ciclo: data !== null ? data.Ciclo.toString() : "",
+      Denominacion: data !== null ? data.Denominacion : "",
+      FechaInicio: data !== null ? data.FechaInicio : "",
+      FechaFin: data !== null ? data.FechaFin : "",
     },
   });
-
-  // const onSubmit = async (data) => {
-  //   console.log("data => ", data);
-  // };
 
   return (
     <div>

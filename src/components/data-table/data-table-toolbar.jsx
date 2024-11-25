@@ -23,14 +23,14 @@ export function DataTableToolbar({ table }) {
   return (
     <div className="flex flex-wrap items-center justify-between">
       <div className="flex flex-1 flex-wrap items-center gap-2">
-        <Input
+        {/* <Input
           placeholder="Filtrar por nombre..."
           value={table.getColumn("FullName")?.getFilterValue() ?? ""}
           onChange={(event) => {
             table.getColumn("FullName")?.setFilterValue(event.target.value);
           }}
           className="h-8 w-[150px] lg:w-[250px]"
-        />
+        /> */}
 
         {table.getColumn("Estado") && (
           <Select

@@ -173,7 +173,7 @@ const createPeriodo = async (periodo) => {
   try {
     // console.log("PERIODO => ", periodo);
     const response = await createPeriodoURI(periodo);
-    // console.log("createPeriodoPerson => ", response);
+    console.log("response periodo => ", response);
     if (response.status === 200) {
       toast.success(response.data.message, {
         position: "top-right",
@@ -204,7 +204,7 @@ const updatePeriodo = async (id, periodo) => {
         position: "top-right",
         duration: 2000,
       });
-      return 1;
+      return false;
     }
     if (response.data.result >= 1) {
       toast.success("Registro actualizado", {
