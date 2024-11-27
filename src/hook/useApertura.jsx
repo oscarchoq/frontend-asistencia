@@ -1,5 +1,19 @@
-import { createAperturaURI } from "@/api/academico";
+import { createAperturaURI, getAperturasURI } from "@/api/academico";
 import { toast } from "sonner";
+
+const getAperturas = async (semestre) => {
+  try {
+    const response = await getAperturasURI(semestre);
+    console.log("get aperturas", response);
+    return response.data;
+  } catch (error) {
+    console.log("Error al obtener las aperturas", error);
+    toast.error("Error al obtener las aperturas", {
+      position: "top-right",
+      duration: 2000,
+    });
+  }
+};
 
 const createApertura = async (apertura) => {
   try {
@@ -23,6 +37,7 @@ const createApertura = async (apertura) => {
 
 export const useApertura = () => {
   return {
+    getAperturas,
     createApertura,
   };
 };

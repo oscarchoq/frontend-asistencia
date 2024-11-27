@@ -19,5 +19,7 @@ export const getCursosURI = (semestre = "", search = "") =>
   axios.get(baseURL + `/curso?semestre=${semestre}&&search=${search}`);
 
 // APERTURA API
+export const getAperturasURI = (semestre = "") =>
+  axios.get(baseURL + `/apertura?semestre=${semestre}`);
 export const createAperturaURI = (data) =>
   axios.post(baseURL + "/apertura", data);
