@@ -11,3 +11,13 @@ export const updatePeriodoURI = (id, data) =>
   axios.post(baseURL + `/periodo/${id}`, data);
 export const changeStatusURI = (id, data) =>
   axios.post(baseURL + `/periodo/${id}/status`, data);
+
+// CURSOS API
+// http://localhost:3000/api/v1/academico/curso?semestre=8&&search=web
+
+export const getCursosURI = (semestre = "", search = "") =>
+  axios.get(baseURL + `/curso?semestre=${semestre}&&search=${search}`);
+
+// APERTURA API
+export const createAperturaURI = (data) =>
+  axios.post(baseURL + "/apertura", data);

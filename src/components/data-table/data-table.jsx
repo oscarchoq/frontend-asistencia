@@ -23,7 +23,7 @@ import { DataTablePagination } from "@/components/data-table/data-table-paginati
 // import { DataTablePagination } from "@/components/data-table-components/data-table-pagination";
 // import { DataTableToolbar } from "@/components/data-table-components/data-table-toolbar";
 
-export function DataTable({ columns, data }) {
+export function DataTable({ columns, data, toolbar = true }) {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
 
@@ -44,7 +44,8 @@ export function DataTable({ columns, data }) {
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      {toolbar && <DataTableToolbar table={table} />}
+      {/* <DataTableToolbar table={table} /> */}
       <div className="overflow-y-auto rounded-md border">
         <Table>
           <TableHeader>

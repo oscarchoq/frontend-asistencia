@@ -10,6 +10,8 @@ import LoginPage from "./app/pages/login/LoginPage";
 import HomePersona from "./app/pages/persona/HomePersona";
 import FormPersona from "./app/pages/persona/FormPersona";
 import { ListarPeriodo } from "./app/pages/academico/periodo/Page";
+import { ListarCursos } from "./app/pages/academico/curso/Page";
+import Page from "./app/pages/academico/apertura-curso/Page";
 function App() {
   return (
     <>
@@ -50,6 +52,8 @@ function App() {
 
                 {/* PERIODO ACADEMICO */}
                 <Route path="/periodoacademico" element={<ListarPeriodo />} />
+                <Route path="/aperturacurso" element={<Page />} />
+                <Route path="/cursos" element={<ListarCursos />} />
               </Route>
             </Routes>
           </Router>

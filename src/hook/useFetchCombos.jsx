@@ -1,6 +1,7 @@
 import {
   comboEstadoCivil,
   comboGradoInstruccion,
+  comboPeriodo,
   comboTipoDocumento,
 } from "@/api/combos";
 
@@ -28,11 +29,20 @@ const fetchEstadoCivil = async () => {
     console.log("Error al obtener el comboEstadoCivil", error);
   }
 };
+const fetchPeriodo = async () => {
+  try {
+    const response = await comboPeriodo();
+    return response.data;
+  } catch (error) {
+    console.log("Error al obtener el comboEstadoCivil", error);
+  }
+};
 
 export const useFetchCombos = () => {
   return {
     fetchGradoInstruccion,
     fetchTipoDocumento,
     fetchEstadoCivil,
+    fetchPeriodo,
   };
 };

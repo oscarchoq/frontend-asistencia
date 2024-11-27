@@ -46,6 +46,7 @@ const ListarPeriodo = () => {
     if (status) {
       setPeriodos(await getPeriodos());
       setShowDialog(false);
+      setIsLoading(false);
       selectPeriodo(null);
     }
     setIsLoading(false);
