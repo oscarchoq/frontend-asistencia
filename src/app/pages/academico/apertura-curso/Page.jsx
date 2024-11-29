@@ -28,22 +28,29 @@ import FormApertura from "./FormApertura";
 const Page = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [selectApertura, setSelectApertura] = useState(null);
 
   const { fetchPeriodo } = useFetchCombos();
   const [periodos, setPeriodos] = useState([]);
 
-  const { createApertura, getAperturas } = useApertura();
+  const { getAperturas, createApertura, updateApertura } = useApertura();
   const [aperturas, setAperturas] = useState([]);
   const [filterPeriodo, setFilterPeriodo] = useState("");
 
   const onSubmit = async (data) => {
     setIsLoading(true);
     let status = false;
-    status = await createApertura(data);
+
+    if (selectApertura === null) {
+      status = await createApertura(data);
+    } else {
+      status = await updateApertura(selectApertura.AperturaCursoID, data);
+    }
     if (status) {
       setAperturas(await getAperturas(filterPeriodo));
       setShowDialog(false);
       setIsLoading(false);
+      setSelectApertura(null);
     }
     setIsLoading(false);
   };
@@ -93,6 +100,7 @@ const Page = () => {
         <Button
           onClick={() => {
             setShowDialog(true);
+            setSelectApertura(null);
           }}
         >
           <Plus size={16} className="mr-2" />
@@ -127,9 +135,21 @@ const Page = () => {
             </div>
           </div>
         </div>
-        <DataTable columns={columns} data={aperturas} toolbar={false} />
+        <DataTable
+          columns={columns({
+            setShowDialog,
+            setData: setSelectApertura,
+          })}
+          data={aperturas}
+          toolbar={false}
+        />
 
-        <Modal onSubmit={onSubmit} open={showDialog} close={setShowDialog} />
+        <Modal
+          onSubmit={onSubmit}
+          open={showDialog}
+          close={setShowDialog}
+          data={selectApertura}
+        />
       </div>
 
       {isLoading && <Loading />}
@@ -137,7 +157,7 @@ const Page = () => {
   );
 };
 
-const Modal = ({ onSubmit, open, close, data = null }) => {
+const Modal = ({ onSubmit, open, close, data }) => {
   // console.log("update => ", data);
   return (
     <Dialog onOpenChange={close} open={open}>

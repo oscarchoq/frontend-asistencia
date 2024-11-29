@@ -4,7 +4,7 @@ import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { TbCalendarTime } from "react-icons/tb";
 import { MdOutlinePersonSearch } from "react-icons/md";
 
-export const columns = [
+export const columns = ({ setShowDialog, setData }) => [
   {
     accessorKey: "Codigo",
     header: ({ column }) => (
@@ -40,12 +40,18 @@ export const columns = [
     header: () => <div className="text-right">Acciones</div>,
     cell: ({ row }) => {
       // console.log("activo => ", row.original.Activo);
-      return <ActionsButtons />;
+      return (
+        <ActionsButtons
+          apertura={row.original}
+          setShowDialog={setShowDialog}
+          setData={setData}
+        />
+      );
     },
   },
 ];
 
-const ActionsButtons = () => {
+const ActionsButtons = ({ apertura, setShowDialog, setData }) => {
   return (
     <div className="flex justify-center items-center gap-x-2">
       <Button
@@ -53,7 +59,7 @@ const ActionsButtons = () => {
         size="option"
         className="bg-sky-700 hover:bg-sky-900"
         onClick={() => {
-          console.log("click");
+          console.log("click elegir docente");
         }}
       >
         <MdOutlinePersonSearch />
@@ -63,7 +69,7 @@ const ActionsButtons = () => {
         size="option"
         className="bg-blue-700 hover:bg-blue-900"
         onClick={() => {
-          console.log("click");
+          console.log("click asistencia");
         }}
       >
         <TbCalendarTime />
@@ -73,7 +79,9 @@ const ActionsButtons = () => {
         size="option"
         className="bg-green-700 hover:bg-green-900"
         onClick={() => {
-          console.log("click");
+          // console.log("click editar", apertura);
+          setShowDialog(true);
+          setData(apertura);
         }}
       >
         <PiPencilSimpleLineBold />

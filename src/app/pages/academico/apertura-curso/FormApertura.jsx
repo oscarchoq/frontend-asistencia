@@ -47,10 +47,9 @@ const FormApertura = ({ onSubmit, data = null }) => {
   const form = useForm({
     resolver: zodResolver(AperturaSchema),
     defaultValues: {
-      Periodo: data !== null ? data.Periodo.toString() : "",
-      Codigo: data !== null ? data.Codigo.toString() : "",
+      Periodo: data !== null ? data.PeriodoID.toString() : "",
       Asignatura: data !== null ? data.Asignatura : "",
-      Docente: data !== null ? data.Docente.toString() : "",
+      Docente: data !== null ? data.Docente : "",
       Turno: data !== null ? data.Turno : "",
       Grupo: data !== null ? data.Grupo : "",
     },
@@ -68,11 +67,11 @@ const FormApertura = ({ onSubmit, data = null }) => {
     setShowDocentes(false);
   };
 
-  const preOnSubmit = (data) => {
+  const preOnSubmit = (values) => {
     const newData = {
-      ...data,
-      CursoID: selectCurso?.CursoID,
-      DocenteID: selectDocente?.PersonaID,
+      ...values,
+      CursoID: selectCurso?.CursoID || data?.CursoID,
+      DocenteID: selectDocente?.PersonaID || data?.DocenteID,
     };
     onSubmit(newData);
   };
@@ -151,7 +150,7 @@ const FormApertura = ({ onSubmit, data = null }) => {
                     <Input
                       disabled={true}
                       {...field}
-                      value={selectCurso?.Denominacion || ""} // Mostrar el curso seleccionado
+                      value={selectCurso?.Denominacion || field.value || ""} // Mostrar el curso seleccionado
                     />
                   </FormControl>
                   <FormMessage />
@@ -183,7 +182,7 @@ const FormApertura = ({ onSubmit, data = null }) => {
                     <Input
                       disabled={true}
                       {...field}
-                      value={selectDocente?.FullName || ""}
+                      value={selectDocente?.FullName || field.value || ""}
                     />
                   </FormControl>
                   <FormMessage />

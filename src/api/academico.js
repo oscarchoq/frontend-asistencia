@@ -23,3 +23,5 @@ export const getAperturasURI = (semestre = "") =>
   axios.get(baseURL + `/apertura?semestre=${semestre}`);
 export const createAperturaURI = (data) =>
   axios.post(baseURL + "/apertura", data);
+export const updateAperturaURI = (id, data) =>
+  axios.post(baseURL + `/apertura/${id}`, data);
