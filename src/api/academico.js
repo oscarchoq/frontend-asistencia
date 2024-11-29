@@ -25,3 +25,5 @@ export const createAperturaURI = (data) =>
   axios.post(baseURL + "/apertura", data);
 export const updateAperturaURI = (id, data) =>
   axios.post(baseURL + `/apertura/${id}`, data);
+export const updateDocenteURI = (id, data) =>
+  axios.post(baseURL + `/apertura/${id}/docente`, data);

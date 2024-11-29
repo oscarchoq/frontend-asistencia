@@ -4,7 +4,7 @@ import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { TbCalendarTime } from "react-icons/tb";
 import { MdOutlinePersonSearch } from "react-icons/md";
 
-export const columns = ({ setShowDialog, setData }) => [
+export const columns = ({ setShowDialog, setData, setShowDocentes }) => [
   {
     accessorKey: "Codigo",
     header: ({ column }) => (
@@ -45,13 +45,19 @@ export const columns = ({ setShowDialog, setData }) => [
           apertura={row.original}
           setShowDialog={setShowDialog}
           setData={setData}
+          setShowDocentes={setShowDocentes}
         />
       );
     },
   },
 ];
 
-const ActionsButtons = ({ apertura, setShowDialog, setData }) => {
+const ActionsButtons = ({
+  apertura,
+  setShowDialog,
+  setData,
+  setShowDocentes,
+}) => {
   return (
     <div className="flex justify-center items-center gap-x-2">
       <Button
@@ -59,7 +65,9 @@ const ActionsButtons = ({ apertura, setShowDialog, setData }) => {
         size="option"
         className="bg-sky-700 hover:bg-sky-900"
         onClick={() => {
-          console.log("click elegir docente");
+          // console.log("click elegir docente");
+          setShowDocentes(true);
+          setData(apertura);
         }}
       >
         <MdOutlinePersonSearch />

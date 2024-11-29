@@ -24,16 +24,19 @@ import { useApertura } from "@/hook/useApertura";
 import { periodoSort } from "@/lib/periodoSort";
 import { columns } from "./columns";
 import FormApertura from "./FormApertura";
+import { ListarDocentes } from "./docente/Page";
 
 const Page = () => {
   const [showDialog, setShowDialog] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [selectApertura, setSelectApertura] = useState(null);
+  const [showDocentes, setShowDocentes] = useState(false);
 
   const { fetchPeriodo } = useFetchCombos();
   const [periodos, setPeriodos] = useState([]);
 
-  const { getAperturas, createApertura, updateApertura } = useApertura();
+  const { getAperturas, createApertura, updateApertura, updateDocente } =
+    useApertura();
   const [aperturas, setAperturas] = useState([]);
   const [filterPeriodo, setFilterPeriodo] = useState("");
 
@@ -53,6 +56,25 @@ const Page = () => {
       setSelectApertura(null);
     }
     setIsLoading(false);
+  };
+
+  const handleSelectDocente = async (docente) => {
+    // console.log(docente);
+    // console.log(selectApertura);
+    if (selectApertura?.DocenteID === docente.PersonaID) {
+      // console.log("Son igual, no hago nada");
+      setShowDocentes(false);
+      setSelectApertura(null);
+    } else {
+      // console.log("Son diferentes, necesito actualizar el docente");
+      const status = await updateDocente(selectApertura.AperturaCursoID, {
+        DocenteID: docente?.PersonaID,
+      });
+      // console.log("response de update docente => ", status);
+      setAperturas(await getAperturas(filterPeriodo));
+      setShowDocentes(false);
+      setSelectApertura(null);
+    }
   };
 
   useEffect(() => {
@@ -138,6 +160,7 @@ const Page = () => {
         <DataTable
           columns={columns({
             setShowDialog,
+            setShowDocentes,
             setData: setSelectApertura,
           })}
           data={aperturas}
@@ -153,6 +176,11 @@ const Page = () => {
       </div>
 
       {isLoading && <Loading />}
+      <DialogDocentes
+        open={showDocentes}
+        onClose={setShowDocentes}
+        setDocente={handleSelectDocente}
+      />
     </div>
   );
 };
@@ -174,6 +202,19 @@ const Modal = ({ onSubmit, open, close, data }) => {
             Guardar
           </Button>
         </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+const DialogDocentes = ({ open, onClose, setDocente }) => {
+  return (
+    <Dialog onOpenChange={onClose} open={open}>
+      <DialogContent className="sm:max-w-3xl">
+        <DialogHeader>
+          <DialogTitle>Seleccionar docente</DialogTitle>
+        </DialogHeader>
+        <ListarDocentes setDocente={setDocente} />
       </DialogContent>
     </Dialog>
   );

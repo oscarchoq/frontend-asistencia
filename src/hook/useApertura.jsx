@@ -2,6 +2,7 @@ import {
   createAperturaURI,
   getAperturasURI,
   updateAperturaURI,
+  updateDocenteURI,
 } from "@/api/academico";
 import { toast } from "sonner";
 
@@ -65,11 +66,38 @@ const updateApertura = async (id, apertura) => {
     return false;
   }
 };
+const updateDocente = async (id, apertura) => {
+  try {
+    const response = await updateDocenteURI(id, apertura);
+    // console.log(response);
+    if (response.data.result === 0) {
+      toast.success("No hay campos para actualizar", {
+        position: "top-right",
+        duration: 2000,
+      });
+      return false;
+    }
+    if (response.data.result >= 1) {
+      toast.success("Información de docente actualizada", {
+        position: "top-right",
+        duration: 2000,
+      });
+      return 2;
+    }
+  } catch (error) {
+    toast.error(error.response.data.error, {
+      position: "top-right",
+      duration: 2000,
+    });
+    return false;
+  }
+};
 
 export const useApertura = () => {
   return {
     getAperturas,
     createApertura,
     updateApertura,
+    updateDocente,
   };
 };
