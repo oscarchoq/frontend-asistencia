@@ -1,6 +1,6 @@
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { Button } from "@/components/ui/button";
-import { FaExternalLinkAlt } from "react-icons/fa";
+import { MdControlPoint } from "react-icons/md";
 
 export const columns = ({ setData }) => [
   {
@@ -24,11 +24,6 @@ export const columns = ({ setData }) => [
   },
 ];
 
-// -- TOTAL POR SEMESTRE
-// SELECT CursoID, SemestreID, Denominacion, RefAcademica FROM curso
-// WHERE SemestreID = 8
-// ;
-
 const ActionsButtons = ({ curso, setData }) => {
   return (
     <div className="flex justify-center items-center gap-x-2">
@@ -37,11 +32,11 @@ const ActionsButtons = ({ curso, setData }) => {
         size="option"
         className="bg-blue-700"
         onClick={() => {
-          console.log(curso);
+          // console.log(curso);
           setData(curso);
         }}
       >
-        <FaExternalLinkAlt />
+        <MdControlPoint />
       </Button>
     </div>
   );

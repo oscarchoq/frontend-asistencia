@@ -1,31 +1,29 @@
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Plus } from "lucide-react";
 
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import FormApertura from "./FormApertura";
-import { useApertura } from "@/hook/useApertura";
-import Loading from "@/components/custom/loading";
-import { DataTable } from "@/components/data-table/data-table";
-import { columns } from "./columns";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { DataTable } from "@/components/data-table/data-table";
+import Loading from "@/components/custom/loading";
 import { useFetchCombos } from "@/hook/useFetchCombos";
+import { useApertura } from "@/hook/useApertura";
+import { periodoSort } from "@/lib/periodoSort";
+import { columns } from "./columns";
+import FormApertura from "./FormApertura";
 
 const Page = () => {
   const [showDialog, setShowDialog] = useState(false);
@@ -41,30 +39,20 @@ const Page = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
     let status = false;
-    console.log("mmmm", data);
     status = await createApertura(data);
     if (status) {
+      setAperturas(await getAperturas(filterPeriodo));
       setShowDialog(false);
       setIsLoading(false);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
     async function getCombos() {
       setIsLoading(true);
       const combo1 = await fetchPeriodo();
-      console.log("periodos", combo1);
-
-      // Ordenamos los periodos por año y semestre
-      const orderedPeriodos = combo1.sort((a, b) => {
-        const [aYear, aPeriod] = a.Denominacion.split("-").map(Number);
-        const [bYear, bPeriod] = b.Denominacion.split("-").map(Number);
-        if (aYear !== bYear) {
-          return bYear - aYear;
-        }
-        return bPeriod - aPeriod;
-      });
-
+      const orderedPeriodos = periodoSort(combo1);
       setPeriodos(orderedPeriodos);
 
       // Seleccionamos por defecto el último periodo
@@ -80,7 +68,6 @@ const Page = () => {
   useEffect(() => {
     const get = async () => {
       setIsLoading(true);
-      console.log("Traer las aperturas");
       const res = await getAperturas(filterPeriodo);
       setAperturas(res);
       setIsLoading(false);
@@ -97,7 +84,7 @@ const Page = () => {
       <div className="flex flex-col pb-8 ">
         <h1 className="font-bold text-xl">Apertura de Curso</h1>
         <span className="text-gray-500 font-semibold -mt-1">
-          Realice operaciones CRUD para los periodos academicos
+          Realice operaciones CRUD para aperturar cursos
         </span>
       </div>
 
@@ -119,7 +106,7 @@ const Page = () => {
               <Select
                 value={filterPeriodo}
                 onValueChange={(value) => {
-                  console.log("select", value);
+                  // console.log("select", value);
                   setFilterPeriodo(value);
                 }}
               >
@@ -151,20 +138,20 @@ const Page = () => {
 };
 
 const Modal = ({ onSubmit, open, close, data = null }) => {
-  console.log("update => ", data);
+  // console.log("update => ", data);
   return (
     <Dialog onOpenChange={close} open={open}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
             {" "}
-            {data === null ? "Registrar" : "Actualizar"} Periodo Academico
+            {data === null ? "Aperturar curso" : "Actualizar"}
           </DialogTitle>
         </DialogHeader>
         <FormApertura onSubmit={onSubmit} data={data} />
         <DialogFooter>
           <Button type="submit" onSubmit={onSubmit} form="form-apertura">
-            Save changes
+            Guardar
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -1,6 +1,8 @@
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FaLastfm, FaLastfmSquare, FaSearch } from "react-icons/fa";
+import { MdOutlinePersonSearch } from "react-icons/md";
+import { MdContentPasteSearch } from "react-icons/md";
 import {
   Form,
   FormControl,
@@ -18,18 +20,18 @@ import {
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { AperturaSchema } from "./SchemaApertura";
-import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { ListarCursos } from "../curso/Page";
-import { usePeriodo } from "@/hook/usePeriodo";
-import { useFetchCombos } from "@/hook/useFetchCombos";
 import Loading from "@/components/custom/loading";
+import { useFetchCombos } from "@/hook/useFetchCombos";
+import { periodoSort } from "@/lib/periodoSort";
+import { ListarCursos } from "./curso/Page";
+import { ListarDocentes } from "./docente/Page";
+import { AperturaSchema } from "./SchemaApertura";
 
 const FormApertura = ({ onSubmit, data = null }) => {
   const [showCursos, setShowCursos] = useState(false);
@@ -45,28 +47,32 @@ const FormApertura = ({ onSubmit, data = null }) => {
   const form = useForm({
     resolver: zodResolver(AperturaSchema),
     defaultValues: {
-      Periodo: data !== null ? data.Ciclo.toString() : "",
-      Codigo: data !== null ? data.Ciclo.toString() : "",
-      Asignatura: data !== null ? data.Denominacion : "",
-      Docente: data !== null ? data.Anio.toString() : "",
-      Turno: data !== null ? data.FechaInicio : "",
-      Grupo: data !== null ? data.FechaFin : "",
+      Periodo: data !== null ? data.Periodo.toString() : "",
+      Codigo: data !== null ? data.Codigo.toString() : "",
+      Asignatura: data !== null ? data.Asignatura : "",
+      Docente: data !== null ? data.Docente.toString() : "",
+      Turno: data !== null ? data.Turno : "",
+      Grupo: data !== null ? data.Grupo : "",
     },
   });
 
   const handleSelectCurso = (curso) => {
-    console.log("curso a cargar", curso);
     setSelectCurso(curso);
-    form.setValue("Asignatura", curso.Denominacion);
+    form.resetField("Asignatura", { defaultValue: curso.Denominacion });
     setShowCursos(false);
   };
 
+  const handleSelectDocente = (docente) => {
+    setSelectDocente(docente);
+    form.setValue("Docente", docente.FullName);
+    setShowDocentes(false);
+  };
+
   const preOnSubmit = (data) => {
-    console.log("data sin procesar", data);
     const newData = {
       ...data,
       CursoID: selectCurso?.CursoID,
-      DocenteID: selectDocente?.DocenteID,
+      DocenteID: selectDocente?.PersonaID,
     };
     onSubmit(newData);
   };
@@ -75,8 +81,8 @@ const FormApertura = ({ onSubmit, data = null }) => {
     async function getCombos() {
       setIsLoading(true);
       const combo1 = await fetchPeriodo();
-      console.log("periodos", combo1);
-      setPeriodos(combo1);
+      const orderedPeriodos = periodoSort(combo1);
+      setPeriodos(orderedPeriodos);
       setIsLoading(false);
     }
     getCombos();
@@ -130,15 +136,15 @@ const FormApertura = ({ onSubmit, data = null }) => {
                   <FormLabel>
                     Asignatura
                     <Button
-                      className="ml-3 bg-slate-600 dark:bg-slate-300"
+                      className="ml-3 bg-sky-700 hover:bg-sky-900 text-white"
                       size="option"
                       type="button"
                       onClick={() => {
                         setShowCursos(true);
-                        console.log("curso seleccionado", selectCurso);
+                        // console.log("curso seleccionado", selectCurso);
                       }}
                     >
-                      <FaSearch />
+                      <MdContentPasteSearch />
                     </Button>
                   </FormLabel>
                   <FormControl>
@@ -162,15 +168,23 @@ const FormApertura = ({ onSubmit, data = null }) => {
                   <FormLabel>
                     Docente
                     <Button
-                      className="ml-3 bg-slate-600 dark:bg-slate-300"
+                      className="ml-3 bg-sky-700 hover:bg-sky-900 text-white"
                       size="option"
                       type="button"
+                      onClick={() => {
+                        setShowDocentes(true);
+                        // console.log("docente seleccionado", selectDocente);
+                      }}
                     >
-                      <FaSearch />
+                      <MdOutlinePersonSearch />
                     </Button>
                   </FormLabel>
                   <FormControl>
-                    <Input disabled={true} {...field} />
+                    <Input
+                      disabled={true}
+                      {...field}
+                      value={selectDocente?.FullName || ""}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -236,12 +250,20 @@ const FormApertura = ({ onSubmit, data = null }) => {
         open={showCursos}
         onClose={setShowCursos}
         setCurso={handleSelectCurso}
+        type="curso"
+      />
+
+      <Modal
+        open={showDocentes}
+        onClose={setShowDocentes}
+        setDocente={handleSelectDocente}
+        type="docente"
       />
     </div>
   );
 };
 
-const Modal = ({ open, onClose, setCurso, setDocente }) => {
+const Modal = ({ open, onClose, setCurso, setDocente, type }) => {
   // const handleSelectCurso = (curso) => {
   //   console.log("curso a cargar", curso);
   //   setCurso(curso); // Actualiza el estado local
@@ -251,11 +273,14 @@ const Modal = ({ open, onClose, setCurso, setDocente }) => {
 
   return (
     <Dialog onOpenChange={onClose} open={open}>
-      <DialogContent className="sm:max-w-4xl">
+      <DialogContent className="sm:max-w-3xl">
         <DialogHeader>
-          <DialogTitle>Seleccionar asignatura</DialogTitle>
+          <DialogTitle>
+            Seleccionar {type === "curso" ? "asignatura" : "docente"}
+          </DialogTitle>
         </DialogHeader>
-        <ListarCursos setCurso={setCurso} />
+        {type === "curso" && <ListarCursos setCurso={setCurso} />}
+        {type === "docente" && <ListarDocentes setDocente={setDocente} />}
       </DialogContent>
     </Dialog>
   );
