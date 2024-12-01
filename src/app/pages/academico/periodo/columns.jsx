@@ -1,8 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-
 import { IoTrashSharp } from "react-icons/io5";
-import { FaPencilAlt } from "react-icons/fa";
 
 import {
   AlertDialog,
@@ -18,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { Button } from "@/components/ui/button";
+import { PiPencilSimpleLineBold } from "react-icons/pi";
 
 export const columns = ({ onStatusChange, setShowDialog, setData }) => [
   {
@@ -103,18 +101,18 @@ const ActionsButtons = ({
       <Button
         type="button"
         size="option"
-        className="bg-green-700"
+        className="bg-green-700 hover:bg-green-900"
         onClick={() => {
-          console.log(periodo);
+          // console.log(periodo);
           setShowDialog(true);
           setData(periodo);
         }}
       >
-        <FaPencilAlt />
+        <PiPencilSimpleLineBold />
       </Button>
-      <Button type="button" size="option" className="bg-red-700">
+      {/* <Button type="button" size="option" className="bg-red-700">
         <IoTrashSharp />
-      </Button>
+      </Button> */}
 
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <AlertDialogContent>

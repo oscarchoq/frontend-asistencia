@@ -12,7 +12,7 @@ const getAperturas = async (semestre) => {
     // console.log("get aperturas", response);
     return response.data;
   } catch (error) {
-    console.log("Error al obtener las aperturas", error);
+    // console.log("Error al obtener las aperturas", error);
     toast.error("Error al obtener las aperturas", {
       position: "top-right",
       duration: 2000,

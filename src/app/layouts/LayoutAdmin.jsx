@@ -2,10 +2,11 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import Loading from "@/components/custom/loading";
 
 const LayoutAdmin = () => {
   const { isAuthenticated, loading } = useAuth();
-  if (loading) return <></>;
+  if (loading) return <Loading />;
   if (!isAuthenticated && !loading) return <Navigate to="/login" replace />;
 
   return (

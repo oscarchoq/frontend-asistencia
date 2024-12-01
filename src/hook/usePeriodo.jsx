@@ -37,7 +37,7 @@ const createPeriodo = async (periodo) => {
   try {
     // console.log("PERIODO => ", periodo);
     const response = await createPeriodoURI(periodo);
-    console.log("response periodo => ", response);
+    // console.log("response periodo => ", response);
     if (response.status === 200) {
       toast.success(response.data.message, {
         position: "top-right",

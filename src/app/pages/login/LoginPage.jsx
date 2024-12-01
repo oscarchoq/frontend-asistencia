@@ -41,7 +41,7 @@ const LoginPage = () => {
   function onSubmit(values) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values);
+    // console.log(values);
     signIn(values);
   }
 

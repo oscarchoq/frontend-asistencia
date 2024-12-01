@@ -210,8 +210,6 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
                     onValueChange={(value) => {
                       field.onChange(value);
                       setSelectTipoDoc(value);
-                      console.log("field", field);
-                      console.log("value", value);
                     }}
                     defaultValue={field.value}
                   >

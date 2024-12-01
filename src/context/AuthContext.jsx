@@ -25,9 +25,9 @@ export const AuthProvider = ({ children }) => {
       const res = await loginRequest(user);
       setIsAuthenticated(true);
       setUserSession(res.data);
-      console.log(res);
+      // console.log(res);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       if (error.status === 401) {
         toast.error(error.response.data.message, {
           position: "top-right",

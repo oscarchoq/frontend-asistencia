@@ -1,4 +1,9 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+} from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 
 import { Toaster } from "@/components/ui/sonner";
@@ -15,6 +20,8 @@ import Page from "./app/pages/academico/apertura-curso/Page";
 import { ListarDocentes } from "./app/pages/academico/apertura-curso/docente/Page";
 import ClasePage from "./app/pages/academico/clases/Page";
 import Info from "./app/pages/academico/clases/Info";
+import NotFound from "./app/pages/NotFound";
+import PrivateRoute from "./app/layouts/PrivateRoute";
 function App() {
   return (
     <>
@@ -28,37 +35,91 @@ function App() {
                 {/* ESTUDIANTE */}
                 <Route
                   path="/estudiante"
-                  element={<HomePersona typePerson={1} />}
+                  element={
+                    <PrivateRoute allowedRoles={[1]}>
+                      <HomePersona typePerson={1} />
+                    </PrivateRoute>
+                  }
                 />
                 <Route
                   path="/estudiante/registrar"
-                  element={<FormPersona typeForm={1} typePerson={1} />}
+                  element={
+                    <PrivateRoute allowedRoles={[1]}>
+                      <FormPersona typeForm={1} typePerson={1} />
+                    </PrivateRoute>
+                  }
                 />
                 <Route
                   path="/estudiante/editar/:id"
-                  element={<FormPersona typeForm={2} typePerson={1} />}
+                  element={
+                    <PrivateRoute allowedRoles={[1]}>
+                      <FormPersona typeForm={2} typePerson={1} />
+                    </PrivateRoute>
+                  }
                 />
 
                 {/* DOCENTE */}
                 <Route
                   path="/docente"
-                  element={<HomePersona typePerson={2} />}
+                  element={
+                    <PrivateRoute allowedRoles={[1]}>
+                      <HomePersona typePerson={2} />
+                    </PrivateRoute>
+                  }
                 />
                 <Route
                   path="/docente/registrar"
-                  element={<FormPersona typeForm={1} typePerson={2} />}
+                  element={
+                    <PrivateRoute allowedRoles={[1]}>
+                      <FormPersona typeForm={1} typePerson={2} />
+                    </PrivateRoute>
+                  }
                 />
                 <Route
                   path="/docente/editar/:id"
-                  element={<FormPersona typeForm={2} typePerson={2} />}
+                  element={
+                    <PrivateRoute allowedRoles={[1]}>
+                      <FormPersona typeForm={2} typePerson={2} />
+                    </PrivateRoute>
+                  }
                 />
 
                 {/* PERIODO ACADEMICO */}
-                <Route path="/periodoacademico" element={<ListarPeriodo />} />
-                <Route path="/aperturacurso" element={<Page />} />
-                <Route path="/clases" element={<ClasePage />} />
-                <Route path="/clases/detalle" element={<Info />} />
+                <Route
+                  path="/periodoacademico"
+                  element={
+                    <PrivateRoute allowedRoles={[1]}>
+                      <ListarPeriodo />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/aperturacurso"
+                  element={
+                    <PrivateRoute allowedRoles={[1]}>
+                      <Page />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/clases"
+                  element={
+                    <PrivateRoute allowedRoles={[1, 2, 3]}>
+                      <ClasePage />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/clases/detalle"
+                  element={
+                    <PrivateRoute allowedRoles={[1, 2, 3]}>
+                      <Info />
+                    </PrivateRoute>
+                  }
+                />
               </Route>
+              <Route path="/404" element={<NotFound />} />
+              <Route path="/*" element={<Navigate to={"/404"} />} />
             </Routes>
           </Router>
         </AuthProvider>

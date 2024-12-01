@@ -1,18 +1,36 @@
-import { Cross1Icon, HamburgerMenuIcon, HomeIcon } from "@radix-ui/react-icons";
+import { useAuth } from "@/context/AuthContext";
+import { Cross1Icon, HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
+import { PiStudentFill } from "react-icons/pi";
+import { GiTeacher } from "react-icons/gi";
+import { MdOutlineSchool } from "react-icons/md";
+import { BiCalendar } from "react-icons/bi";
+import { FaPeopleGroup } from "react-icons/fa6";
+import { LuHome } from "react-icons/lu";
 
 const links = [
-  { name: "Home", href: "", icon: HomeIcon },
-  { name: "estudiante", href: "estudiante" },
-  { name: "docente", href: "docente" },
-  { name: "periodo", href: "periodoacademico" },
-  { name: "apertura de grupos", href: "aperturacurso" },
-  { name: "Clases", href: "clases" },
+  { name: "Home", href: "", icon: LuHome, roles: [1, 2, 3] },
+  { name: "estudiante", href: "estudiante", icon: PiStudentFill, roles: [1] },
+  { name: "docente", href: "docente", icon: GiTeacher, roles: [1] },
+  { name: "periodo", href: "periodoacademico", icon: BiCalendar, roles: [1] },
+  {
+    name: "aperturar curso",
+    href: "aperturacurso",
+    icon: FaPeopleGroup,
+    roles: [1],
+  },
+  { name: "Clases", href: "clases", icon: MdOutlineSchool, roles: [1, 2, 3] },
 ];
 
 const Sidebar = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const { userSession } = useAuth();
+
+  // Filtrar enlaces según los permisos del usuario
+  const filteredLinks = links.filter(
+    (link) => link.roles.includes(userSession?.TipoPersonaID) // Asegurarse de que el rol tenga acceso
+  );
 
   return (
     <>
@@ -67,7 +85,7 @@ const Sidebar = () => {
           {/* Contenido */}
           <div className="flex-1 divide-y space-y-1 mt-9">
             <ul className="">
-              {links.map((link) => (
+              {filteredLinks.map((link) => (
                 <li key={link.href}>
                   <NavLink
                     to={link.href}
@@ -77,7 +95,9 @@ const Sidebar = () => {
                       }`
                     }
                   >
-                    <HomeIcon className="text-dashboard_primary" />
+                    {link.icon && (
+                      <link.icon className="text-dashboard_primary w-5 h-5" />
+                    )}
                     <span className="">{link.name}</span>
                   </NavLink>
                 </li>

@@ -7,7 +7,6 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/data-table/data-table";
@@ -106,7 +105,7 @@ const ListarPeriodo = () => {
 };
 
 const Modal = ({ onSubmit, open, close, data }) => {
-  console.log("update => ", data);
+  // console.log("update => ", data);
   return (
     <Dialog onOpenChange={close} open={open}>
       <DialogContent className="sm:max-w-[425px]">

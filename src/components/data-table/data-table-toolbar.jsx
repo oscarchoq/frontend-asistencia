@@ -36,7 +36,7 @@ export function DataTableToolbar({ table }) {
           <Select
             value={currenStatus}
             onValueChange={(value) => {
-              console.log("select", value);
+              // console.log("select", value);
               // console.log("transf => ", table);
               table.getColumn("Estado")?.setFilterValue(value);
               setCurrenStatus(value);

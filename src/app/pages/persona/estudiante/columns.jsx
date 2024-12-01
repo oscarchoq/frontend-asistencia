@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-import { FaPencilAlt } from "react-icons/fa";
 import { IoTrashSharp } from "react-icons/io5";
 
 import {
@@ -17,6 +16,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
+import { Button } from "@/components/ui/button";
+import { PiPencilSimpleLineBold } from "react-icons/pi";
 
 export const columns = ({ onStatusChange }) => [
   {
@@ -92,18 +93,21 @@ const ActionsButtons = ({ persona, onStatusChange }) => {
         checked={newStatus}
         onCheckedChange={() => setIsDialogOpen(true)} // Cambia el estado cuando se cambia el switch
       />
-      <Link
-        to={`editar/${persona.PersonaID}`}
-        className="bg-green-700 p-1 rounded text-white"
-      >
-        <FaPencilAlt size={14} />
+      <Link to={`editar/${persona.PersonaID}`}>
+        <Button
+          type="button"
+          size="option"
+          className="bg-green-700 hover:bg-green-900"
+        >
+          <PiPencilSimpleLineBold />
+        </Button>
       </Link>
-      <Link
+      {/* <Link
         to={`eliminar/${persona.PersonaID}`}
         className="bg-red-700 p-1 rounded text-white"
       >
         <IoTrashSharp size={14} />
-      </Link>
+      </Link> */}
 
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <AlertDialogContent>
