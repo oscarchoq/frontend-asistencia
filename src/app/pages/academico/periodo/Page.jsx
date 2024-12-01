@@ -35,6 +35,7 @@ const ListarPeriodo = () => {
   }, []);
 
   const onSubmit = async (data) => {
+    console.log(data);
     setIsLoading(true);
     let status = false;
     if (selectPeriodo === null) {
@@ -46,7 +47,7 @@ const ListarPeriodo = () => {
       setPeriodos(await getPeriodos());
       setShowDialog(false);
       setIsLoading(false);
-      selectPeriodo(null);
+      setSelectPeriodo(null);
     }
     setIsLoading(false);
   };

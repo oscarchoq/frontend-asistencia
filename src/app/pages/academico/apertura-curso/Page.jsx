@@ -100,6 +100,7 @@ const Page = () => {
     const get = async () => {
       setIsLoading(true);
       const res = await getAperturas(filterPeriodo);
+      console.log("Listado de aperturas => ", res);
       setAperturas(res);
       setIsLoading(false);
     };
