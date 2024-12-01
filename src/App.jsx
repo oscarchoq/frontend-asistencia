@@ -14,6 +14,7 @@ import { ListarCursos } from "./app/pages/academico/apertura-curso/curso/Page";
 import Page from "./app/pages/academico/apertura-curso/Page";
 import { ListarDocentes } from "./app/pages/academico/apertura-curso/docente/Page";
 import ClasePage from "./app/pages/academico/clases/Page";
+import Info from "./app/pages/academico/clases/Info";
 function App() {
   return (
     <>
@@ -56,7 +57,7 @@ function App() {
                 <Route path="/periodoacademico" element={<ListarPeriodo />} />
                 <Route path="/aperturacurso" element={<Page />} />
                 <Route path="/clases" element={<ClasePage />} />
-                <Route path="/prueba" element={<ListarDocentes />} />
+                <Route path="/clases/detalle" element={<Info />} />
               </Route>
             </Routes>
           </Router>
