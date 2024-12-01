@@ -37,8 +37,10 @@ const ClasePage = () => {
 
   useEffect(() => {
     const get = async () => {
+      setLoading(true);
       const res = await getClases();
       setClases(res);
+      setLoading(false);
     };
     get();
   }, []);

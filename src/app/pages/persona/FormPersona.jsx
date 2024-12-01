@@ -29,10 +29,12 @@ import FormSkeleton from "./FormSkeleton";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useFetchCombos } from "@/hook/useFetchCombos";
 import { usePersona } from "@/hook/usePersona";
+import Loading from "@/components/custom/loading";
 
 // typeForm: 1 = registrar, 2 = editar
 // typePerson: 1 = estudiante, 2 = profesor
 const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
+  const [loading, setLoading] = useState(false);
   // Start -- Combos
   const { fetchGradoInstruccion, fetchTipoDocumento, fetchEstadoCivil } =
     useFetchCombos();
@@ -80,6 +82,7 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
   // Traer combos
   useEffect(() => {
     async function getCombos() {
+      setLoading(true);
       const combo1 = await fetchTipoDocumento();
       const combo2 = await fetchEstadoCivil();
       const combo3 = await fetchGradoInstruccion();
@@ -87,7 +90,7 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
       setTipoDocs(combo1);
       setEstadoCivil(combo2);
       setGradosIns(combo3);
-
+      setLoading(false);
       // console.log(combo1);
       // console.log(combo2);
       // console.log(combo3);
@@ -184,6 +187,7 @@ const FormPersona = ({ typeForm = 2, typePerson = 1 }) => {
   if (!person && typeForm === 2) return <FormSkeleton />;
   return (
     <div>
+      {loading && <Loading />}
       <div className="flex flex-col pb-8">
         <h1 className="font-bold text-xl">
           Formulario para {typePerson === 1 ? "Estudiante" : "Docente"}

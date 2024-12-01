@@ -67,12 +67,14 @@ const Page = () => {
       setSelectApertura(null);
     } else {
       // console.log("Son diferentes, necesito actualizar el docente");
+      setIsLoading(true);
       const status = await updateDocente(selectApertura.AperturaCursoID, {
         DocenteID: docente?.PersonaID,
       });
       // console.log("response de update docente => ", status);
       setAperturas(await getAperturas(filterPeriodo));
       setShowDocentes(false);
+      setIsLoading(false);
       setSelectApertura(null);
     }
   };

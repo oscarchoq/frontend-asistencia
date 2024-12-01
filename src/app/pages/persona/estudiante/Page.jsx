@@ -29,6 +29,7 @@ const ListarEstudiantes = () => {
     if (res.status === 200) {
       const estudiantes = await getPersona(1);
       setStudents(estudiantes);
+      setIsLoading(false);
     }
     setIsLoading(false);
   };

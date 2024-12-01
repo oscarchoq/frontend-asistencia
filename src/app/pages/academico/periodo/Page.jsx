@@ -119,7 +119,7 @@ const Modal = ({ onSubmit, open, close, data }) => {
         <FormPeriodo onSubmit={onSubmit} data={data} />
         <DialogFooter>
           <Button type="submit" onSubmit={onSubmit} form="form-periodo">
-            Save changes
+            Guardar
           </Button>
         </DialogFooter>
       </DialogContent>
