@@ -8,6 +8,7 @@ const links = [
   { name: "docente", href: "docente" },
   { name: "periodo", href: "periodoacademico" },
   { name: "apertura de grupos", href: "aperturacurso" },
+  { name: "Clases", href: "clases" },
 ];
 
 const Sidebar = () => {

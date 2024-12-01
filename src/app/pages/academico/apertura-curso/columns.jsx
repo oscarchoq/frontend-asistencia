@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { TbCalendarTime } from "react-icons/tb";
 import { MdOutlinePersonSearch } from "react-icons/md";
+import { Link } from "react-router-dom";
 
 export const columns = ({ setShowDialog, setData, setShowDocentes }) => [
   {
@@ -72,16 +73,18 @@ const ActionsButtons = ({
       >
         <MdOutlinePersonSearch />
       </Button>
-      <Button
-        type="button"
-        size="option"
-        className="bg-blue-700 hover:bg-blue-900"
-        onClick={() => {
-          console.log("click asistencia");
-        }}
-      >
-        <TbCalendarTime />
-      </Button>
+      <Link to={"/clases"}>
+        <Button
+          type="button"
+          size="option"
+          className="bg-blue-700 hover:bg-blue-900"
+          onClick={() => {
+            console.log("click asistencia");
+          }}
+        >
+          <TbCalendarTime />
+        </Button>
+      </Link>
       <Button
         type="button"
         size="option"

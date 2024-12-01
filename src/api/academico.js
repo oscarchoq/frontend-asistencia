@@ -27,3 +27,8 @@ export const updateAperturaURI = (id, data) =>
   axios.post(baseURL + `/apertura/${id}`, data);
 export const updateDocenteURI = (id, data) =>
   axios.post(baseURL + `/apertura/${id}/docente`, data);
+
+// CLASE API
+const claseBaseURL = "clase";
+export const inscribirseURI = (codigo) =>
+  axios.post(claseBaseURL + "/inscripcion", codigo);
