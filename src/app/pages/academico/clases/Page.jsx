@@ -28,6 +28,7 @@ const ClasePage = () => {
     const status = await inscribirse(codigo);
     if (status) {
       //volver a cargar cursos
+      setClases(await getClases());
       setLoading(false);
       setShowDialog(false);
     }
