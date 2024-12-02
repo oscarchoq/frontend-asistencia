@@ -12,8 +12,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useClase } from "@/hook/useClase";
 import { columns } from "./columns";
+import Loading from "@/components/custom/loading";
 
 const Estudiantes = ({ id }) => {
+  const [loading, setLoading] = useState(false);
+
   const [filterEstado, setFilterEstado] = useState("ACEPTADO");
   const [filterCodigo, setFilterCodigo] = useState("");
 
@@ -23,9 +26,11 @@ const Estudiantes = ({ id }) => {
 
   useEffect(() => {
     const get = async () => {
+      setLoading(true);
       const res = await getInscritos(id, filterEstado, filterCodigo);
       // console.log("res", res);
       setInscritos(res);
+      setLoading(false);
     };
 
     if (filterCodigo === "" || filterCodigo.length >= 3) {
@@ -34,14 +39,21 @@ const Estudiantes = ({ id }) => {
   }, [filterEstado, filterCodigo]);
 
   const onStatusChange = async (InscripcionID, newStatus) => {
+    setLoading(true);
     const res = await changeStatusInscripcion(InscripcionID, newStatus);
     if (res.status === 200) {
       setInscritos(await getInscritos(id, filterEstado, filterCodigo));
     }
+    setLoading(false);
   };
 
   return (
-    <div className="space-y-4">
+    <div className="sm:p-5 space-y-4">
+      {loading && <Loading />}
+
+      <div className="py-5">
+        <h2>Lista de estudiantes inscritos</h2>
+      </div>
       <div className="flex flex-wrap items-center justify-start  gap-x-3 gap-y-3 ">
         <div className="flex-shrink-0 space-y-2">
           <Label>Filtro estado</Label>

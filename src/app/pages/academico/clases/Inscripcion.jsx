@@ -3,7 +3,7 @@ import { FaCircleInfo } from "react-icons/fa6";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const Inscripcion = ({ onSubmit }) => {
+const Inscripcion = ({ onSubmit, onClose }) => {
   const [isDisabled, setIsDisabled] = useState(true);
   const [codigo, setCodigo] = useState("");
 
@@ -44,7 +44,9 @@ const Inscripcion = ({ onSubmit }) => {
           símbolos.
         </span>
         <div className="flex justify-end">
-          <Button variant="ghost">Cancelar</Button>
+          <Button variant="ghost" onClick={() => onClose(false)}>
+            Cancelar
+          </Button>
           <Button
             disabled={isDisabled}
             onClick={() => onSubmit(codigo)}

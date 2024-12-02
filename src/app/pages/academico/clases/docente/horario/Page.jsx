@@ -13,8 +13,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import FormHorario from "./FormHorario";
+import Loading from "@/components/custom/loading";
 
 const ListarHorarios = ({ id }) => {
+  const [loading, setLoading] = useState(false);
+
   const [horarios, setHorarios] = useState([]);
   const [showDialog, setShowDialog] = useState(false);
   const [selectHorario, setSelectHorario] = useState(null);
@@ -24,13 +27,16 @@ const ListarHorarios = ({ id }) => {
 
   useEffect(() => {
     async function get() {
+      setLoading(true);
       const res = await getHorarios(id);
       setHorarios(res);
+      setLoading(false);
     }
     get();
   }, []);
 
   const onSubmit = async (data) => {
+    setLoading(true);
     let status = false;
     if (selectHorario === null) {
       status = await createHorario(id, data);
@@ -40,23 +46,30 @@ const ListarHorarios = ({ id }) => {
     if (status) {
       setHorarios(await getHorarios(id));
       setShowDialog(false);
-      // setIsLoading(false);
+      setLoading(false);
       setSelectHorario(null);
     }
-    // setIsLoading(false);
+    setLoading(false);
   };
 
   const handleChangeStatus = async (horarioID, newStatus) => {
     // setIsLoading(true);
+    setLoading(true);
     const res = await changeStatusHorario(horarioID, newStatus);
     if (res.status === 200) {
       setHorarios(await getHorarios(id));
     }
-    // setIsLoading(false);
+    setLoading(false);
   };
 
   return (
     <div className="sm:p-5 space-y-6">
+      {loading && <Loading />}
+
+      <div className="py-5">
+        <h2>Lista de horarios registrados</h2>
+      </div>
+
       <Button
         onClick={() => {
           setShowDialog(true);

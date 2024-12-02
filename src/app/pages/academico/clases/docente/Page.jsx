@@ -21,7 +21,10 @@ import { useClase } from "@/hook/useClase";
 import { toast } from "sonner";
 import { ListarHorarios } from "./horario/Page";
 import { Estudiantes } from "./matricula/Page";
+import Loading from "@/components/custom/loading";
 const ClaseDocente = () => {
+  const [loading, setLoading] = useState(false);
+
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -31,25 +34,31 @@ const ClaseDocente = () => {
 
   useEffect(() => {
     async function get() {
+      setLoading(true);
       const response = await getClase(id);
       if (!response) {
         navigate("/404");
+        setLoading(false);
       }
       setClase(response);
+      setLoading(false);
     }
     get();
   }, []);
 
   const handleSwitchChange = async (value) => {
+    setLoading(true);
     const res = await changeAutoAprobacion(id, clase?.AprobacionAutomatica);
-
     if (res.status === 200) {
       setClase(await getClase(id));
     }
+    setLoading(false);
   };
 
   return (
     <div className="space-y-6">
+      {loading && <Loading />}
+
       <div className="grid sm:grid-cols-3 gap-y-5">
         <div className="flex flex-col sm:col-span-2">
           <h1 className="font-bold text-xl">{clase?.Asignatura}</h1>

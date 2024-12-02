@@ -98,7 +98,7 @@ const Modal = ({ open, onClose, onSubmit }) => {
         <DialogHeader>
           <DialogTitle>Unirse a clase</DialogTitle>
         </DialogHeader>
-        <Inscripcion onSubmit={onSubmit} />
+        <Inscripcion onSubmit={onSubmit} onClose={onClose} />
       </DialogContent>
     </Dialog>
   );
