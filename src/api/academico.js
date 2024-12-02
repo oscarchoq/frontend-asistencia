@@ -35,3 +35,9 @@ export const getClasesURI = () => axios.get(claseBaseURL);
 export const getClaseByIdURI = (id) => axios.get(claseBaseURL + `/${id}`);
 export const inscribirseURI = (codigo) =>
   axios.post(claseBaseURL + "/inscripcion", codigo);
+export const getHorariosURI = (id) =>
+  axios.get(claseBaseURL + `/${id}/horario`);
+export const createHorarioURI = (data) =>
+  axios.post(claseBaseURL + `/horario`, data);
+export const updateHorarioURI = (id, data) =>
+  axios.post(claseBaseURL + `/horario/${id}`, data);

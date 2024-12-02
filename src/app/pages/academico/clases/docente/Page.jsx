@@ -9,6 +9,7 @@ import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useClase } from "@/hook/useClase";
 import { toast } from "sonner";
+import { ListarHorarios } from "./horario/Page";
 const ClaseDocente = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -19,7 +20,6 @@ const ClaseDocente = () => {
   useEffect(() => {
     async function get() {
       const response = await getClase(id);
-      console.log(response);
       if (!response) {
         navigate("/404");
       }
@@ -52,7 +52,7 @@ const ClaseDocente = () => {
             </p>
             <div className="flex items-center mt-1 space-x-2">
               <Input
-                value={clase?.CodigoApertura}
+                value={clase?.CodigoApertura || ""}
                 disabled
                 className="flex-grow max-w-32 disabled:opacity-100 text-right"
               />
@@ -73,7 +73,7 @@ const ClaseDocente = () => {
           </div>
         </div>
       </div>
-      <Tabs defaultValue="asistencia" className="w-[500px]">
+      <Tabs defaultValue="asistencia" className="">
         <TabsList>
           <TabsTrigger value="asistencia">Asistencia</TabsTrigger>
           <TabsTrigger value="estudiantes">Estudiantes</TabsTrigger>
@@ -84,6 +84,9 @@ const ClaseDocente = () => {
         </TabsContent>
         <TabsContent value="estudiantes">
           <Estudiantes />
+        </TabsContent>
+        <TabsContent value="horarios">
+          <ListarHorarios id={id} />
         </TabsContent>
       </Tabs>
     </div>

@@ -1,4 +1,11 @@
-import { getClaseByIdURI, getClasesURI, inscribirseURI } from "@/api/academico";
+import {
+  createHorarioURI,
+  getClaseByIdURI,
+  getClasesURI,
+  getHorariosURI,
+  inscribirseURI,
+  updateHorarioURI,
+} from "@/api/academico";
 import { toast } from "sonner";
 
 const inscribirse = async (codigo) => {
@@ -41,7 +48,7 @@ const getClases = async () => {
 const getClase = async (id) => {
   try {
     const result = await getClaseByIdURI(id);
-    console.log("por id", result);
+    // console.log("por id", result);
     return result.data[0];
   } catch (error) {
     toast.error(error.response.data.error, {
@@ -51,10 +58,75 @@ const getClase = async (id) => {
   }
 };
 
+const getHorarios = async (id) => {
+  try {
+    const result = await getHorariosURI(id);
+    // console.log("horario por id", result);
+    return result.data;
+  } catch (error) {
+    toast.error(error.response.data.error, {
+      position: "top-right",
+      duration: 2000,
+    });
+  }
+};
+
+const createHorario = async (id, horario) => {
+  try {
+    const response = await createHorarioURI({ ...horario, ClaseID: id });
+    // console.log("INS horario", response);
+    if (response.status === 200) {
+      toast.success(response.data.message, {
+        position: "top-right",
+        duration: 2000,
+      });
+      return true;
+    }
+  } catch (error) {
+    toast.error(error.response.data.error, {
+      position: "top-right",
+      duration: 2000,
+    });
+  }
+};
+
+const updateHorario = async (id, horario) => {
+  try {
+    // console.log("HORARIO => ", horario);
+    // console.log("ID => ", id);
+    const response = await updateHorarioURI(id, horario);
+    // console.log("updateHorario => ", response);
+    if (response.data.result === 0) {
+      toast.success("No hay campos para actualizar", {
+        position: "top-right",
+        duration: 2000,
+      });
+      return false;
+    }
+    if (response.data.result >= 1) {
+      toast.success("Registro actualizado", {
+        position: "top-right",
+        duration: 2000,
+      });
+      return true;
+    }
+  } catch (error) {
+    // console.log(error);
+    toast.error(error.response.data.error, {
+      position: "top-right",
+      duration: 2000,
+    });
+    return false;
+  }
+};
+
 export const useClase = () => {
   return {
     inscribirse,
     getClases,
     getClase,
+    getHorarios,
+    createHorario,
+    updateHorario,
   };
 };
