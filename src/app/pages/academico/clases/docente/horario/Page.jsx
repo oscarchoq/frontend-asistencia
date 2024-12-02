@@ -19,7 +19,8 @@ const ListarHorarios = ({ id }) => {
   const [showDialog, setShowDialog] = useState(false);
   const [selectHorario, setSelectHorario] = useState(null);
 
-  const { getHorarios, createHorario, updateHorario } = useClase();
+  const { getHorarios, createHorario, updateHorario, changeStatusHorario } =
+    useClase();
 
   useEffect(() => {
     async function get() {
@@ -47,11 +48,10 @@ const ListarHorarios = ({ id }) => {
 
   const handleChangeStatus = async (horarioID, newStatus) => {
     // setIsLoading(true);
-    // const res = await changeStatus(horarioID, newStatus);
-    // if (res.status === 200) {
-    //   const periodosFound = await getHorarios();
-    //   setHorarios(periodosFound);
-    // }
+    const res = await changeStatusHorario(horarioID, newStatus);
+    if (res.status === 200) {
+      setHorarios(await getHorarios(id));
+    }
     // setIsLoading(false);
   };
 

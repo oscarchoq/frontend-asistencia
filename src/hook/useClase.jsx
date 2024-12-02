@@ -1,4 +1,5 @@
 import {
+  changeStatusHorarioURI,
   createHorarioURI,
   getClaseByIdURI,
   getClasesURI,
@@ -120,6 +121,23 @@ const updateHorario = async (id, horario) => {
   }
 };
 
+const changeStatusHorario = async (id, data) => {
+  try {
+    const response = await changeStatusHorarioURI(id, { Activo: data });
+    // console.log("changeStatusPerson => ", response);
+    return response;
+  } catch (error) {
+    // console.log(error);
+    if (error.status === 409) {
+      toast.error(error.response.data.error, {
+        position: "top-right",
+        duration: 2000,
+      });
+      return false;
+    }
+  }
+};
+
 export const useClase = () => {
   return {
     inscribirse,
@@ -128,5 +146,6 @@ export const useClase = () => {
     getHorarios,
     createHorario,
     updateHorario,
+    changeStatusHorario,
   };
 };

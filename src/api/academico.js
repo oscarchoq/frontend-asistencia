@@ -41,3 +41,5 @@ export const createHorarioURI = (data) =>
   axios.post(claseBaseURL + `/horario`, data);
 export const updateHorarioURI = (id, data) =>
   axios.post(claseBaseURL + `/horario/${id}`, data);
+export const changeStatusHorarioURI = (id, data) =>
+  axios.post(claseBaseURL + `/horario/${id}/status`, data);
