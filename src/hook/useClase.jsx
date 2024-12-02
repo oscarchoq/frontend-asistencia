@@ -1,9 +1,12 @@
 import {
+  changeAutoAprobacionURI,
   changeStatusHorarioURI,
+  changeStatusInscripcionURI,
   createHorarioURI,
   getClaseByIdURI,
   getClasesURI,
   getHorariosURI,
+  getInscritosURI,
   inscribirseURI,
   updateHorarioURI,
 } from "@/api/academico";
@@ -138,6 +141,61 @@ const changeStatusHorario = async (id, data) => {
   }
 };
 
+const getInscritos = async (id, estado, search) => {
+  try {
+    const response = await getInscritosURI(
+      id,
+      estado === "TODOS" ? "" : estado,
+      search
+    );
+    return response.data;
+  } catch (error) {
+    toast.error("Error al obtener los cursos", {
+      position: "top-right",
+      duration: 2000,
+    });
+  }
+};
+
+const changeStatusInscripcion = async (id, estado) => {
+  try {
+    const response = await changeStatusInscripcionURI({
+      InscripcionID: id,
+      EstadoInscripcion: estado,
+    });
+    console.log("changeStatusInscrito => ", response);
+    return response;
+  } catch (error) {
+    // console.log(error);
+    if (error.status === 409) {
+      toast.error(error.response.data.error, {
+        position: "top-right",
+        duration: 2000,
+      });
+      return false;
+    }
+  }
+};
+
+const changeAutoAprobacion = async (id, estado) => {
+  try {
+    const response = await changeAutoAprobacionURI(id, {
+      AprobacionAutomatica: estado,
+    });
+    console.log("changeS auto aprobacion => ", response);
+    return response;
+  } catch (error) {
+    // console.log(error);
+    if (error.status === 409) {
+      toast.error(error.response.data.error, {
+        position: "top-right",
+        duration: 2000,
+      });
+      return false;
+    }
+  }
+};
+
 export const useClase = () => {
   return {
     inscribirse,
@@ -147,5 +205,8 @@ export const useClase = () => {
     createHorario,
     updateHorario,
     changeStatusHorario,
+    getInscritos,
+    changeStatusInscripcion,
+    changeAutoAprobacion,
   };
 };

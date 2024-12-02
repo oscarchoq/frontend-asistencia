@@ -31,10 +31,17 @@ export const updateDocenteURI = (id, data) =>
 // CLASE API
 const claseBaseURL = "clase";
 
+// INSCRIPCION API
 export const getClasesURI = () => axios.get(claseBaseURL);
 export const getClaseByIdURI = (id) => axios.get(claseBaseURL + `/${id}`);
+export const changeAutoAprobacionURI = (id, data) =>
+  axios.post(claseBaseURL + `/${id}`, data);
 export const inscribirseURI = (codigo) =>
   axios.post(claseBaseURL + "/inscripcion", codigo);
+export const changeStatusInscripcionURI = (data) =>
+  axios.post(claseBaseURL + "/inscripcion/estado", data);
+
+// HORARIO API
 export const getHorariosURI = (id) =>
   axios.get(claseBaseURL + `/${id}/horario`);
 export const createHorarioURI = (data) =>
@@ -43,3 +50,10 @@ export const updateHorarioURI = (id, data) =>
   axios.post(claseBaseURL + `/horario/${id}`, data);
 export const changeStatusHorarioURI = (id, data) =>
   axios.post(claseBaseURL + `/horario/${id}/status`, data);
+
+export const getInscritosURI = (id, estado = "", search = "") =>
+  axios.get(
+    claseBaseURL + `/${id}/inscritos?estado=${estado}&&search=${search}`
+  );
+// export const changeStatusInscripcionURI = (id, data) =>
+//   axios.post(claseBaseURL + `/inscripcion/${id}/status`, data);

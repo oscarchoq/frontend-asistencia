@@ -1,6 +1,16 @@
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Asistencia from "./Asistencia";
-import Estudiantes from "./Estudiantes";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -10,12 +20,14 @@ import { useEffect, useState } from "react";
 import { useClase } from "@/hook/useClase";
 import { toast } from "sonner";
 import { ListarHorarios } from "./horario/Page";
+import { Estudiantes } from "./matricula/Page";
 const ClaseDocente = () => {
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const [showDialog, setShowDialog] = useState(false);
   const [clase, setClase] = useState(null);
-  const { getClase } = useClase();
+  const { getClase, changeAutoAprobacion } = useClase();
 
   useEffect(() => {
     async function get() {
@@ -27,6 +39,14 @@ const ClaseDocente = () => {
     }
     get();
   }, []);
+
+  const handleSwitchChange = async (value) => {
+    const res = await changeAutoAprobacion(id, clase?.AprobacionAutomatica);
+
+    if (res.status === 200) {
+      setClase(await getClase(id));
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -43,7 +63,10 @@ const ClaseDocente = () => {
               Aprobación automática:
             </p>
             <div className="flex items-center mt-1 space-x-2">
-              <Switch />
+              <Switch
+                checked={clase?.AprobacionAutomatica}
+                onCheckedChange={() => setShowDialog(true)}
+              />
             </div>
           </div>
           <div className="flex items-center justify-start space-x-3">
@@ -83,13 +106,55 @@ const ClaseDocente = () => {
           <Asistencia />
         </TabsContent>
         <TabsContent value="estudiantes">
-          <Estudiantes />
+          <Estudiantes id={id} />
         </TabsContent>
         <TabsContent value="horarios">
           <ListarHorarios id={id} />
         </TabsContent>
       </Tabs>
+
+      {/* Dialog */}
+      <AlertDialog1
+        open={showDialog}
+        onClose={setShowDialog}
+        autoAprobacion={clase?.AprobacionAutomatica}
+        handleConfirmChange={handleSwitchChange}
+      />
     </div>
+  );
+};
+
+const AlertDialog1 = ({
+  open,
+  onClose,
+  autoAprobacion,
+  handleConfirmChange,
+}) => {
+  return (
+    <AlertDialog open={open} onOpenChange={onClose}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>
+            {autoAprobacion
+              ? "¿Estás seguro de desactivar la aprobación automática?"
+              : "¿Estás seguro de activar la aprobación automática?"}
+          </AlertDialogTitle>
+          <AlertDialogDescription>
+            {autoAprobacion
+              ? "Si desactivas la aprobación automática, los estudiantes deberán ser aprobados manualmente para ingresar a la clase. ¿Deseas continuar?"
+              : "Si activas la aprobación automática, cualquier estudiante con el código podrá ingresar automáticamente a la clase. ¿Deseas continuar?"}
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>
+            Cancelar
+          </AlertDialogCancel>
+          <AlertDialogAction onClick={handleConfirmChange}>
+            Continuar
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 
