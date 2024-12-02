@@ -32,5 +32,6 @@ export const updateDocenteURI = (id, data) =>
 const claseBaseURL = "clase";
 
 export const getClasesURI = () => axios.get(claseBaseURL);
+export const getClaseByIdURI = (id) => axios.get(claseBaseURL + `/${id}`);
 export const inscribirseURI = (codigo) =>
   axios.post(claseBaseURL + "/inscripcion", codigo);

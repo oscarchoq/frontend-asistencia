@@ -1,4 +1,4 @@
-import { getClasesURI, inscribirseURI } from "@/api/academico";
+import { getClaseByIdURI, getClasesURI, inscribirseURI } from "@/api/academico";
 import { toast } from "sonner";
 
 const inscribirse = async (codigo) => {
@@ -38,9 +38,23 @@ const getClases = async () => {
   }
 };
 
+const getClase = async (id) => {
+  try {
+    const result = await getClaseByIdURI(id);
+    console.log("por id", result);
+    return result.data[0];
+  } catch (error) {
+    toast.error(error.response.data.error, {
+      position: "top-right",
+      duration: 2000,
+    });
+  }
+};
+
 export const useClase = () => {
   return {
     inscribirse,
     getClases,
+    getClase,
   };
 };

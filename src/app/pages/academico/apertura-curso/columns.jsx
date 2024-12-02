@@ -73,7 +73,7 @@ const ActionsButtons = ({
       >
         <MdOutlinePersonSearch />
       </Button>
-      <Link to={"/clases"}>
+      <Link to={`/clase/${apertura.AperturaCursoID}`}>
         <Button
           type="button"
           size="option"
