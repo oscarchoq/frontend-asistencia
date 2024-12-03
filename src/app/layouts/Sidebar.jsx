@@ -20,7 +20,7 @@ const links = [
     icon: FaPeopleGroup,
     roles: [1],
   },
-  { name: "Clases", href: "clases", icon: MdOutlineSchool, roles: [1, 2, 3] },
+  { name: "Clases", href: "clase", icon: MdOutlineSchool, roles: [2, 3] },
 ];
 
 const Sidebar = () => {

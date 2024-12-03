@@ -70,7 +70,7 @@ const ClasePage = () => {
                   <p className="text-muted-foreground text-sm sm:min-h-10">
                     {clase.Docente || "Sin docente asignado"}
                   </p>
-                  <Link to={"detalle"}>
+                  <Link to={`/clase/${clase.AperturaCursoID}`}>
                     <Button className="w-full bg-sky-700 hover:bg-sky-600">
                       Ir al curso
                       <ArrowRight className="ml-2 size-4" />

@@ -22,7 +22,12 @@ import { ListarHorarios } from "./horario/Page";
 import { Estudiantes } from "./matricula/Page";
 import Loading from "@/components/custom/loading";
 import { ListarAsistencias } from "./asistencia/Page";
+import { useAuth } from "@/context/AuthContext";
+import AsistenciaEst from "../estudiante/Asistencia";
 const ClaseDocente = () => {
+  const { userSession } = useAuth();
+  if (userSession?.TipoPersonaID === 2) return <AsistenciaEst />;
+
   const [loading, setLoading] = useState(false);
 
   const { id } = useParams();

@@ -4,6 +4,7 @@ import {
   changeStatusInscripcionURI,
   createAsistenciaURI,
   createHorarioURI,
+  getAsistenciaGeoURI,
   getAsistenciaIdURI,
   getAsistenciasURI,
   getClaseByIdURI,
@@ -11,6 +12,7 @@ import {
   getHorariosURI,
   getInscritosURI,
   inscribirseURI,
+  marcarAsistenciaGeotURI,
   marcarAsistenciaURI,
   updateAsistenciaURI,
   updateHorarioURI,
@@ -272,7 +274,7 @@ const updateAsistencia = async (id, asistencia) => {
 const getAsistenciasById = async (id) => {
   try {
     const result = await getAsistenciaIdURI(id);
-    // console.log("horario por id", result);
+    // console.log("asistencias por id", result);
     return result.data;
   } catch (error) {
     toast.error(error.response.data.error, {
@@ -287,7 +289,7 @@ const marcarAsistencia = async (id, data) => {
     // console.log("HORARIO => ", horario);
     // console.log("ID => ", id);
     const response = await marcarAsistenciaURI(id, data);
-    console.log("marcar asistencia => ", response);
+    // console.log("marcar asistencia => ", response);
     if (response.status === 200) {
       toast.success(response.data.message, {
         position: "top-right",
@@ -302,6 +304,42 @@ const marcarAsistencia = async (id, data) => {
       duration: 2000,
     });
     return false;
+  }
+};
+
+const marcarAsistenciaGeo = async (id, data) => {
+  try {
+    // console.log("HORARIO => ", data);
+    // console.log("claseID => ", id);
+    const response = await marcarAsistenciaGeotURI(id, data);
+    // console.log("marcar asistencia => ", response);
+    if (response.status === 200) {
+      toast.success(response.data.message, {
+        position: "top-right",
+        duration: 2000,
+      });
+      return true;
+    }
+  } catch (error) {
+    // console.log(error);
+    toast.error(error.response.data.error, {
+      position: "top-right",
+      duration: 2000,
+    });
+    return false;
+  }
+};
+
+const getAsistenciaGeo = async (id) => {
+  try {
+    const result = await getAsistenciaGeoURI(id);
+    // console.log("asistencia est por id", result);
+    return result.data;
+  } catch (error) {
+    toast.error(error.response.data.error, {
+      position: "top-right",
+      duration: 2000,
+    });
   }
 };
 
@@ -322,5 +360,7 @@ export const useClase = () => {
     updateAsistencia,
     getAsistenciasById,
     marcarAsistencia,
+    getAsistenciaGeo,
+    marcarAsistenciaGeo,
   };
 };

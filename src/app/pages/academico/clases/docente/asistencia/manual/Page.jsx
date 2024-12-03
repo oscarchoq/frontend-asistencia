@@ -16,7 +16,7 @@ const AsistenciaManual = () => {
     const get = async () => {
       setLoading(true);
       const res = await getAsistenciasById(claseID);
-      console.log("res", res);
+      // console.log("res asas", res);
       setInscritos(res);
       setLoading(false);
     };
@@ -25,7 +25,7 @@ const AsistenciaManual = () => {
   }, []);
 
   const handleCheckboxChange = (studentId, estadoAsistencia) => {
-    console.log("actuaalizar", inscritos);
+    // console.log("actuaalizar", inscritos);
     setInscritos((prevAsistencia) =>
       prevAsistencia.map(
         (item) =>
@@ -34,26 +34,26 @@ const AsistenciaManual = () => {
             : item // Deja el registro tal como está si no corresponde al estudiante
       )
     );
-    console.log("actuaalizar fin", inscritos);
+    // console.log("actuaalizar fin", inscritos);
   };
 
   const onSubmit = async () => {
-    console.log("mando esto -> ", inscritos);
+    // console.log("mando esto -> ", inscritos);
     await marcarAsistencia(claseID, inscritos);
   };
 
   return (
     <div className="space-y-10">
-      <div className="flex flex-col">
+      {/* <div className="flex flex-col">
         <h1 className="font-bold text-xl">SISTEMA DE INFORMACIÓN GERENCIAL</h1>
         <span className="text-gray-500 font-semibold mt-1">
           OLIVER ISRAEL SANTANA CARBAJAL
         </span>
-      </div>
+      </div> */}
 
       <div className="flex flex-col">
         <span>Registro de asistencia </span>
-        <span>14 de Octubre de 2024 </span>
+        {/* <span>14 de Octubre de 2024 </span> */}
       </div>
 
       <DataTable

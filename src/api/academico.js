@@ -69,3 +69,7 @@ export const getAsistenciaIdURI = (id) =>
   axios.get(claseBaseURL + `/asistencia/${id}`);
 export const marcarAsistenciaURI = (id, data) =>
   axios.post(claseBaseURL + `/asistencia/${id}/marcar`, data);
+export const marcarAsistenciaGeotURI = (id, data) =>
+  axios.post(claseBaseURL + `/asistencia/${id}/marcargeo`, data);
+export const getAsistenciaGeoURI = (id) =>
+  axios.get(claseBaseURL + `/asistencia/${id}/geo`);

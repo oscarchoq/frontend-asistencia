@@ -14,35 +14,67 @@ import { useMemo } from "react";
 import { Label, Pie, PieChart } from "recharts";
 import * as React from "react";
 
-const chartData = [
-  { browser: "Faltas", visitors: 0, fill: "var(--color-chrome)" },
-  { browser: "Asistidas", visitors: 0, fill: "var(--color-safari)" },
-  { browser: "Tardanzas", visitors: 0, fill: "var(--color-edge)" },
-];
+const Charts = ({ data }) => {
+  // console.log("Desde page", data);
+  // const chartData = useMemo(() => {
+  //   return [
+  //     {
+  //       browser: "Faltas",
+  //       visitors: parseInt(data?.Faltas) || 0,
+  //       fill: "var(--color-chrome)",
+  //     },
+  //     {
+  //       browser: "Asistidas",
+  //       visitors: parseInt(data?.Asistencias) || 0,
+  //       fill: "var(--color-safari)",
+  //     },
+  //     {
+  //       browser: "Tardanzas",
+  //       visitors: parseInt(data?.Tardanzas) || 0,
+  //       fill: "var(--color-edge)",
+  //     },
+  //   ];
+  // }, [data]);
 
-const chartConfig = {
-  visitors: {
-    label: "Dictadas",
-  },
-  chrome: {
-    label: "Faltas",
-    color: "hsl(var(--chart-1))",
-  },
-  safari: {
-    label: "Asistidas",
-    color: "hsl(var(--chart-2))",
-  },
-  edge: {
-    label: "Tardanzas",
-    color: "hsl(var(--chart-4))",
-  },
-};
+  const chartData = [
+    {
+      browser: "Faltas",
+      visitors: parseInt(data?.Faltas) || 0,
+      fill: "var(--color-chrome)",
+    },
+    {
+      browser: "Asistidas",
+      visitors: parseInt(data?.Asistencias) || 0,
+      fill: "var(--color-safari)",
+    },
+    {
+      browser: "Tardanzas",
+      visitors: parseInt(data?.Tardanzas) || 0,
+      fill: "var(--color-edge)",
+    },
+  ];
 
-const Charts = () => {
+  const chartConfig = {
+    visitors: {
+      label: "Dictadas",
+    },
+    chrome: {
+      label: "Faltas",
+      color: "hsl(var(--chart-1))",
+    },
+    safari: {
+      label: "Asistidas",
+      color: "hsl(var(--chart-2))",
+    },
+    edge: {
+      label: "Tardanzas",
+      color: "hsl(var(--chart-4))",
+    },
+  };
   // Calcular el total de visitantes
   const totalVisitors = useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.visitors, 0);
-  }, []);
+  }, [data]);
 
   // Crear datos con un valor ficticio si el total es 0
   const adjustedChartData = useMemo(() => {
@@ -59,7 +91,7 @@ const Charts = () => {
     <Card className="flex flex-col">
       <CardHeader className="items-center pb-0">
         <CardTitle>Resumen de asistencia</CardTitle>
-        <CardDescription>Agosto - Octubre 2024</CardDescription>
+        {/* <CardDescription>Agosto - Octubre 2024</CardDescription> */}
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import React from "react";
-import Charts from "./Charts";
+import Charts from "./estudiante/Charts";
 
 const Info = () => {
   return (

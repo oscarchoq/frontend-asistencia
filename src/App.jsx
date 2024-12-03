@@ -15,11 +15,8 @@ import LoginPage from "./app/pages/login/LoginPage";
 import HomePersona from "./app/pages/persona/HomePersona";
 import FormPersona from "./app/pages/persona/FormPersona";
 import { ListarPeriodo } from "./app/pages/academico/periodo/Page";
-import { ListarCursos } from "./app/pages/academico/apertura-curso/curso/Page";
 import Page from "./app/pages/academico/apertura-curso/Page";
-import { ListarDocentes } from "./app/pages/academico/apertura-curso/docente/Page";
 import ClasePage from "./app/pages/academico/clases/Page";
-import Info from "./app/pages/academico/clases/Info";
 import NotFound from "./app/pages/NotFound";
 import PrivateRoute from "./app/layouts/PrivateRoute";
 import { ClaseDocente } from "./app/pages/academico/clases/docente/Page";
@@ -104,18 +101,10 @@ function App() {
                   }
                 />
                 <Route
-                  path="/clases"
+                  path="/clase"
                   element={
                     <PrivateRoute allowedRoles={[1, 2, 3]}>
                       <ClasePage />
-                    </PrivateRoute>
-                  }
-                />
-                <Route
-                  path="/clases/detalle"
-                  element={
-                    <PrivateRoute allowedRoles={[1, 2, 3]}>
-                      <Info />
                     </PrivateRoute>
                   }
                 />

@@ -2,6 +2,7 @@ import { DataTableColumnHeader } from "@/components/data-table/data-table-column
 import { Button } from "@/components/ui/button";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
 import { Link } from "react-router-dom";
+import { TbCalendarTime } from "react-icons/tb";
 
 export const columns = ({ setShowDialog, setData }) => [
   {
@@ -103,11 +104,11 @@ const ActionsButtons = ({ asistencia, setShowDialog, setData }) => {
           size="option"
           className="bg-blue-700 hover:bg-blue-900"
           onClick={() => {
-            console.log("asistencia manual");
-            console.log(asistencia);
+            // console.log("asistencia manual");
+            // console.log(asistencia);
           }}
         >
-          <PiPencilSimpleLineBold />
+          <TbCalendarTime />
         </Button>
       </Link>
     </div>
