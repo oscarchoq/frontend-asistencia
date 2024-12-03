@@ -2,12 +2,15 @@ import {
   changeAutoAprobacionURI,
   changeStatusHorarioURI,
   changeStatusInscripcionURI,
+  createAsistenciaURI,
   createHorarioURI,
+  getAsistenciasURI,
   getClaseByIdURI,
   getClasesURI,
   getHorariosURI,
   getInscritosURI,
   inscribirseURI,
+  updateAsistenciaURI,
   updateHorarioURI,
 } from "@/api/academico";
 import { toast } from "sonner";
@@ -77,6 +80,7 @@ const getHorarios = async (id) => {
 
 const createHorario = async (id, horario) => {
   try {
+    // console.log("llega al state", id, horario);
     const response = await createHorarioURI({ ...horario, ClaseID: id });
     // console.log("INS horario", response);
     if (response.status === 200) {
@@ -127,7 +131,11 @@ const updateHorario = async (id, horario) => {
 const changeStatusHorario = async (id, data) => {
   try {
     const response = await changeStatusHorarioURI(id, { Activo: data });
-    // console.log("changeStatusPerson => ", response);
+    // console.log("changeStatusHorario => ", response);
+    toast.success(response.data.message, {
+      position: "top-right",
+      duration: 2000,
+    });
     return response;
   } catch (error) {
     // console.log(error);
@@ -196,6 +204,69 @@ const changeAutoAprobacion = async (id, estado) => {
   }
 };
 
+const getAsistencias = async (id) => {
+  try {
+    const result = await getAsistenciasURI(id);
+    // console.log("horario por id", result);
+    return result.data;
+  } catch (error) {
+    toast.error(error.response.data.error, {
+      position: "top-right",
+      duration: 2000,
+    });
+  }
+};
+
+const createAsistencia = async (id, asistencia) => {
+  try {
+    // console.log("llega al state", id, horario);
+    const response = await createAsistenciaURI({ ...asistencia, ClaseID: id });
+    // console.log("INS horario", response);
+    if (response.status === 200) {
+      toast.success(response.data.message, {
+        position: "top-right",
+        duration: 2000,
+      });
+      return true;
+    }
+  } catch (error) {
+    toast.error(error.response.data.error, {
+      position: "top-right",
+      duration: 2000,
+    });
+  }
+};
+
+const updateAsistencia = async (id, asistencia) => {
+  try {
+    // console.log("HORARIO => ", horario);
+    // console.log("ID => ", id);
+    const response = await updateAsistenciaURI(id, asistencia);
+    // console.log("updateHorario => ", response);
+    if (response.data.result === 0) {
+      toast.success("No hay campos para actualizar", {
+        position: "top-right",
+        duration: 2000,
+      });
+      return false;
+    }
+    if (response.data.result >= 1) {
+      toast.success("Registro actualizado", {
+        position: "top-right",
+        duration: 2000,
+      });
+      return true;
+    }
+  } catch (error) {
+    // console.log(error);
+    toast.error(error.response.data.error, {
+      position: "top-right",
+      duration: 2000,
+    });
+    return false;
+  }
+};
+
 export const useClase = () => {
   return {
     inscribirse,
@@ -208,5 +279,8 @@ export const useClase = () => {
     getInscritos,
     changeStatusInscripcion,
     changeAutoAprobacion,
+    getAsistencias,
+    createAsistencia,
+    updateAsistencia,
   };
 };

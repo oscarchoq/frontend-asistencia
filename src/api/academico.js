@@ -57,3 +57,10 @@ export const getInscritosURI = (id, estado = "", search = "") =>
   );
 // export const changeStatusInscripcionURI = (id, data) =>
 //   axios.post(claseBaseURL + `/inscripcion/${id}/status`, data);
+
+export const getAsistenciasURI = (id) =>
+  axios.get(claseBaseURL + `/${id}/asistencia`);
+export const createAsistenciaURI = (data) =>
+  axios.post(claseBaseURL + `/asistencia`, data);
+export const updateAsistenciaURI = (id, data) =>
+  axios.post(claseBaseURL + `/asistencia/${id}`, data);

@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/alert-dialog";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Asistencia from "./Asistencia";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -22,6 +21,7 @@ import { toast } from "sonner";
 import { ListarHorarios } from "./horario/Page";
 import { Estudiantes } from "./matricula/Page";
 import Loading from "@/components/custom/loading";
+import { ListarAsistencias } from "./asistencia/Page";
 const ClaseDocente = () => {
   const [loading, setLoading] = useState(false);
 
@@ -112,7 +112,7 @@ const ClaseDocente = () => {
           <TabsTrigger value="horarios">Horarios</TabsTrigger>
         </TabsList>
         <TabsContent value="asistencia">
-          <Asistencia />
+          <ListarAsistencias id={id} />
         </TabsContent>
         <TabsContent value="estudiantes">
           <Estudiantes id={id} />

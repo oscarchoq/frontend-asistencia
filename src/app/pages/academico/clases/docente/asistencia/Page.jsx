@@ -1,9 +1,11 @@
+import Loading from "@/components/custom/loading";
 import { DataTable } from "@/components/data-table/data-table";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
 import { columns } from "./columns";
 import { useEffect, useState } from "react";
 import { useClase } from "@/hook/useClase";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import FormAsistencia from "./FormAsistencia";
 import {
   Dialog,
   DialogContent,
@@ -12,51 +14,40 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import FormHorario from "./FormHorario";
-import Loading from "@/components/custom/loading";
 
-const ListarHorarios = ({ id }) => {
+const ListarAsistencias = ({ id }) => {
   const [loading, setLoading] = useState(false);
+  const [asistencias, setAsistencias] = useState([]);
 
-  const [horarios, setHorarios] = useState([]);
+  const [selectAsistencia, setSelectAsistencia] = useState(null);
   const [showDialog, setShowDialog] = useState(false);
-  const [selectHorario, setSelectHorario] = useState(null);
 
-  const { getHorarios, createHorario, updateHorario, changeStatusHorario } =
-    useClase();
+  const { getAsistencias, createAsistencia, updateAsistencia } = useClase();
 
   useEffect(() => {
     async function get() {
       setLoading(true);
-      const res = await getHorarios(id);
-      setHorarios(res);
+      const res = await getAsistencias(id);
+      setAsistencias(res);
       setLoading(false);
     }
     get();
   }, []);
 
   const onSubmit = async (data) => {
+    // console.log(data);
     setLoading(true);
     let status = false;
-    if (selectHorario === null) {
-      status = await createHorario(id, data);
+    if (selectAsistencia === null) {
+      status = await createAsistencia(id, data);
     } else {
-      status = await updateHorario(selectHorario.HorarioID, data);
+      status = await updateAsistencia(selectAsistencia.SesionID, data);
     }
     if (status) {
-      setHorarios(await getHorarios(id));
+      setAsistencias(await getAsistencias(id));
       setShowDialog(false);
       setLoading(false);
-      setSelectHorario(null);
-    }
-    setLoading(false);
-  };
-
-  const handleChangeStatus = async (horarioID, newStatus) => {
-    setLoading(true);
-    const res = await changeStatusHorario(horarioID, newStatus);
-    if (res.status === 200) {
-      setHorarios(await getHorarios(id));
+      setSelectAsistencia(null);
     }
     setLoading(false);
   };
@@ -66,13 +57,13 @@ const ListarHorarios = ({ id }) => {
       {loading && <Loading />}
 
       <div className="py-5">
-        <h2>Lista de horarios registrados</h2>
+        <h2>Listado de asistencias</h2>
       </div>
 
       <Button
         onClick={() => {
           setShowDialog(true);
-          setSelectHorario(null);
+          setSelectAsistencia(null);
         }}
       >
         <Plus size={16} className="mr-2" />
@@ -82,38 +73,36 @@ const ListarHorarios = ({ id }) => {
       <DataTable
         toolbar={false}
         columns={columns({
-          onStatusChange: handleChangeStatus,
-          setShowDialog: setShowDialog,
-          setData: setSelectHorario,
+          setShowDialog,
+          setData: setSelectAsistencia,
         })}
-        data={horarios}
+        data={asistencias}
       />
 
       <Modal
         onSubmit={onSubmit}
         open={showDialog}
         close={setShowDialog}
-        data={selectHorario}
+        data={selectAsistencia}
       />
     </div>
   );
 };
 
 const Modal = ({ onSubmit, open, close, data }) => {
-  // console.log("update => ", data);
   return (
     <Dialog onOpenChange={close} open={open}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>
             {" "}
-            {data === null ? "Registrar" : "Actualizar"} Horario
+            {data === null ? "Registrar" : "Actualizar"} Asistencia
           </DialogTitle>
           <DialogDescription>Completa los campos</DialogDescription>
         </DialogHeader>
-        <FormHorario onSubmit={onSubmit} data={data} />
+        <FormAsistencia onSubmit={onSubmit} data={data} />
         <DialogFooter>
-          <Button type="submit" onSubmit={onSubmit} form="form-horario">
+          <Button type="submit" onSubmit={onSubmit} form="form-asistencia">
             Guardar
           </Button>
         </DialogFooter>
@@ -122,4 +111,4 @@ const Modal = ({ onSubmit, open, close, data }) => {
   );
 };
 
-export { ListarHorarios };
+export { ListarAsistencias };
