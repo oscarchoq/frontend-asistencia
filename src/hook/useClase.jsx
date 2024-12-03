@@ -4,12 +4,14 @@ import {
   changeStatusInscripcionURI,
   createAsistenciaURI,
   createHorarioURI,
+  getAsistenciaIdURI,
   getAsistenciasURI,
   getClaseByIdURI,
   getClasesURI,
   getHorariosURI,
   getInscritosURI,
   inscribirseURI,
+  marcarAsistenciaURI,
   updateAsistenciaURI,
   updateHorarioURI,
 } from "@/api/academico";
@@ -267,6 +269,42 @@ const updateAsistencia = async (id, asistencia) => {
   }
 };
 
+const getAsistenciasById = async (id) => {
+  try {
+    const result = await getAsistenciaIdURI(id);
+    // console.log("horario por id", result);
+    return result.data;
+  } catch (error) {
+    toast.error(error.response.data.error, {
+      position: "top-right",
+      duration: 2000,
+    });
+  }
+};
+
+const marcarAsistencia = async (id, data) => {
+  try {
+    // console.log("HORARIO => ", horario);
+    // console.log("ID => ", id);
+    const response = await marcarAsistenciaURI(id, data);
+    console.log("marcar asistencia => ", response);
+    if (response.status === 200) {
+      toast.success(response.data.message, {
+        position: "top-right",
+        duration: 2000,
+      });
+      return true;
+    }
+  } catch (error) {
+    // console.log(error);
+    toast.error(error.response.data.error, {
+      position: "top-right",
+      duration: 2000,
+    });
+    return false;
+  }
+};
+
 export const useClase = () => {
   return {
     inscribirse,
@@ -282,5 +320,7 @@ export const useClase = () => {
     getAsistencias,
     createAsistencia,
     updateAsistencia,
+    getAsistenciasById,
+    marcarAsistencia,
   };
 };

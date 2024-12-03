@@ -64,3 +64,8 @@ export const createAsistenciaURI = (data) =>
   axios.post(claseBaseURL + `/asistencia`, data);
 export const updateAsistenciaURI = (id, data) =>
   axios.post(claseBaseURL + `/asistencia/${id}`, data);
+
+export const getAsistenciaIdURI = (id) =>
+  axios.get(claseBaseURL + `/asistencia/${id}`);
+export const marcarAsistenciaURI = (id, data) =>
+  axios.post(claseBaseURL + `/asistencia/${id}/marcar`, data);

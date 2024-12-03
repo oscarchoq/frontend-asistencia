@@ -23,7 +23,12 @@ import { DataTablePagination } from "@/components/data-table/data-table-paginati
 // import { DataTablePagination } from "@/components/data-table-components/data-table-pagination";
 // import { DataTableToolbar } from "@/components/data-table-components/data-table-toolbar";
 
-export function DataTable({ columns, data, toolbar = true }) {
+export function DataTable({
+  columns,
+  data,
+  toolbar = true,
+  pagination = true,
+}) {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
 
@@ -94,7 +99,7 @@ export function DataTable({ columns, data, toolbar = true }) {
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      {pagination && <DataTablePagination table={table} />}
     </div>
   );
 }

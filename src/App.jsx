@@ -23,6 +23,7 @@ import Info from "./app/pages/academico/clases/Info";
 import NotFound from "./app/pages/NotFound";
 import PrivateRoute from "./app/layouts/PrivateRoute";
 import { ClaseDocente } from "./app/pages/academico/clases/docente/Page";
+import { AsistenciaManual } from "./app/pages/academico/clases/docente/asistencia/manual/Page";
 function App() {
   return (
     <>
@@ -123,6 +124,14 @@ function App() {
                   element={
                     <PrivateRoute allowedRoles={[1, 2, 3]}>
                       <ClaseDocente />
+                    </PrivateRoute>
+                  }
+                />
+                <Route
+                  path="/clase/:id/asistencia/:claseID"
+                  element={
+                    <PrivateRoute allowedRoles={[1, 3]}>
+                      <AsistenciaManual />
                     </PrivateRoute>
                   }
                 />

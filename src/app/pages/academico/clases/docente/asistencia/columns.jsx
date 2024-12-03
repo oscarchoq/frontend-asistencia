@@ -1,6 +1,7 @@
 import { DataTableColumnHeader } from "@/components/data-table/data-table-column-header";
 import { Button } from "@/components/ui/button";
 import { PiPencilSimpleLineBold } from "react-icons/pi";
+import { Link } from "react-router-dom";
 
 export const columns = ({ setShowDialog, setData }) => [
   {
@@ -94,6 +95,21 @@ const ActionsButtons = ({ asistencia, setShowDialog, setData }) => {
       >
         <PiPencilSimpleLineBold />
       </Button>
+      <Link
+        to={`/clase/${asistencia.ClaseID}/asistencia/${asistencia.SesionID}`}
+      >
+        <Button
+          type="button"
+          size="option"
+          className="bg-blue-700 hover:bg-blue-900"
+          onClick={() => {
+            console.log("asistencia manual");
+            console.log(asistencia);
+          }}
+        >
+          <PiPencilSimpleLineBold />
+        </Button>
+      </Link>
     </div>
   );
 };
