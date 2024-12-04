@@ -2,7 +2,7 @@ const Home = () => {
   // return <Loading />;
   return (
     <div>
-      <h1>HomePage</h1>
+      <h1 className="font-bold text-2xl">Bienvenido al sistema!!</h1>
     </div>
   );
 };
