@@ -309,8 +309,8 @@ const marcarAsistencia = async (id, data) => {
 
 const marcarAsistenciaGeo = async (id, data) => {
   try {
-    // console.log("HORARIO => ", data);
-    // console.log("claseID => ", id);
+    // console.log("id clase => ", id);
+    // console.log("cod sesion => ", data);
     const response = await marcarAsistenciaGeotURI(id, data);
     // console.log("marcar asistencia => ", response);
     if (response.status === 200) {
